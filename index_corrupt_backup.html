@@ -1,0 +1,979 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Р”РµР№РєСЃС‚СЂР° С‚Р° Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ | Р†РЅС‚РµСЂР°РєС‚РёРІРЅР° SPA-РџСЂРµР·РµРЅС‚Р°С†С–СЏ</title>
+  <meta name="description" content="Р†РЅС‚РµСЂР°РєС‚РёРІРЅР° SPA-РїСЂРµР·РµРЅС‚Р°С†С–СЏ РїСЂРѕ Р°Р»РіРѕСЂРёС‚РјРё РїРѕС€СѓРєСѓ РЅР°Р№РєРѕСЂРѕС‚С€РѕРіРѕ С€Р»СЏС…Сѓ РЅР° РіСЂР°С„Р°С…: Р”РµР№РєСЃС‚СЂРё С‚Р° Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР° РІ СЃС‚РёР»С– Material 3.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- РќР°РІС–РіР°С†С–Р№РЅР° РїР°РЅРµР»СЊ Р·РІРµСЂС…Сѓ (Header) -->
+  <header class="app-header">
+    <div class="logo">
+      <div class="logo-icon-wrapper">
+        <span class="material-symbols-outlined" style="font-size: 32px;">route</span>
+      </div>
+      <span class="logo-text">РњР°СЂС€СЂСѓС‚РёР·Р°С†С–СЏ</span>
+    </div>
+    
+    <div class="header-center">
+      <span id="slide-title-display">РўРёС‚СѓР»СЊРЅРёР№ СЃР»Р°Р№Рґ</span>
+    </div>
+
+    <div class="header-right">
+      <div class="keyboard-hint" title="Р’РёРєРѕСЂРёСЃС‚РѕРІСѓР№С‚Рµ СЃС‚СЂС–Р»РєРё в†ђ С‚Р° в†’ РЅР° РєР»Р°РІС–Р°С‚СѓСЂС–">
+        <span class="key">в†ђ</span> <span class="key">в†’</span> <span class="key">Space</span>
+      </div>
+      <div class="slide-counter">
+        <span id="current-slide-num">1</span> / <span id="total-slides-num">14</span>
+      </div>
+      <button class="menu-toggle-btn" id="menu-toggle" aria-label="Р’С–РґРєСЂРёС‚Рё РјРµРЅСЋ СЃР»Р°Р№РґС–РІ">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- РџСЂРѕРіСЂРµСЃ-Р±Р°СЂ РїСЂРµР·РµРЅС‚Р°С†С–С— -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Р’РёСЃСѓРІРЅРµ С€РІРёРґРєРµ РјРµРЅСЋ СЃР»Р°Р№РґС–РІ (Sidebar) -->
+  <aside class="sidebar-menu" id="sidebar-menu">
+    <div class="sidebar-header">
+      <h3>Р—РјС–СЃС‚ РґРѕРїРѕРІС–РґС–</h3>
+      <button class="close-menu-btn" id="menu-close">&times;</button>
+    </div>
+    <ul class="slide-list" id="slide-list-links">
+      <!-- Р—Р°РїРѕРІРЅСЋС”С‚СЊСЃСЏ РґРёРЅР°РјС–С‡РЅРѕ С‡РµСЂРµР· JS -->
+    </ul>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Р“РѕР»РѕРІРЅРёР№ РєРѕРЅС‚РµР№РЅРµСЂ СЃР»Р°Р№Рґ-С€РѕСѓ -->
+  <main id="presentation" class="presentation-container">
+
+    <!-- РЎР›РђР™Р” 1: РўРёС‚СѓР»СЊРЅРёР№ -->
+    <section class="slide active" data-title="РўРёС‚СѓР»СЊРЅРёР№ СЃР»Р°Р№Рґ">
+      <div class="slide-content hero-slide">
+        <div class="hero-bg-network"></div>
+        <div class="hero-card">
+          <div class="badge">
+            <span class="material-symbols-outlined">network_node</span>
+            <span>РўРµРѕСЂС–СЏ РіСЂР°С„С–РІ С‚Р° РјР°СЂС€СЂСѓС‚РёР·Р°С†С–СЏ</span>
+          </div>
+          <h1 class="hero-title">РђР»РіРѕСЂРёС‚РјРё Р”РµР№РєСЃС‚СЂРё С‚Р° Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°</h1>
+          <p class="hero-subtitle">Р†РЅС‚РµСЂР°РєС‚РёРІРЅР° РїСЂРµР·РµРЅС‚Р°С†С–СЏ Р°Р»РіРѕСЂРёС‚РјС–РІ РїРѕС€СѓРєСѓ РЅР°Р№РєРѕСЂРѕС‚С€РѕРіРѕ С€Р»СЏС…Сѓ</p>
+          
+          <div class="authors-box">
+            <div class="author-item">
+              <span class="material-symbols-outlined">person</span>
+              <span>РџСЂРµР·РµРЅС‚Р°С†С–СЏ РґР»СЏ Р·Р°С…РёСЃС‚Сѓ Р»Р°Р±РѕСЂР°С‚РѕСЂРЅРёС… С‚Р° РєСѓСЂСЃРѕРІРёС… СЂРѕР±С–С‚</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large next-slide-btn">
+              <span>Р РѕР·РїРѕС‡Р°С‚Рё РґРѕРїРѕРІС–РґСЊ</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 2: РџСЂРѕР±Р»РµРјР° (РЇРє РЅР°РІС–РіР°С‚РѕСЂ Р±Р°С‡РёС‚СЊ РіСЂР°С„) -->
+    <section class="slide" data-title="РџСЂРѕР±Р»РµРјР°С‚РёРєР°">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">map</span> РџРѕСЃС‚Р°РЅРѕРІРєР° Р·Р°РґР°С‡С–</h2>
+        <div class="problem-layout">
+          <div class="problem-left">
+            <p class="lead-text">
+              РњР°СЋС‡Рё Р·РІР°Р¶РµРЅРёР№ РіСЂР°С„ (РѕСЂС–С”РЅС‚РѕРІР°РЅРёР№ Р°Р±Рѕ РЅРµРѕСЂС–С”РЅС‚РѕРІР°РЅРёР№) С‚Р° РІРёС…С–РґРЅСѓ РІРµСЂС€РёРЅСѓ-РґР¶РµСЂРµР»Рѕ, РЅРµРѕР±С…С–РґРЅРѕ Р·РЅР°Р№С‚Рё РЅР°Р№РєРѕСЂРѕС‚С€С– С€Р»СЏС…Рё РІС–Рґ РЅРµС— РґРѕ РІСЃС–С… С–РЅС€РёС… РІРµСЂС€РёРЅ РіСЂР°С„Р°. Р¦Рµ Р·Р°РґР°С‡Р° <strong>SSSP (Single Source Shortest Path)</strong>.
+            </p>
+            <div class="analogy-card mt-3">
+              <span class="analogy-icon material-symbols-outlined">navigation</span>
+              <div class="analogy-text">
+                <h4>РђРЅР°Р»РѕРіС–СЏ Р· РєР°СЂС‚Р°РјРё (Google Maps, Uber)</h4>
+                <p>РќР°РІС–РіР°С‚РѕСЂ СѓСЏРІР»СЏС” РјС–СЃС‚Рѕ СЏРє СЃРєР»Р°РґРЅСѓ РјРµСЂРµР¶Сѓ: РїРµСЂРµС…СЂРµСЃС‚СЏ С” <strong>РІРµСЂС€РёРЅР°РјРё</strong>, Р° РґРѕСЂРѕРіРё РјС–Р¶ РЅРёРјРё вЂ” <strong>СЂРµР±СЂР°РјРё</strong>. Р’Р°РіР° РєРѕР¶РЅРѕРіРѕ СЂРµР±СЂР° РІРёР·РЅР°С‡Р°С”С‚СЊСЃСЏ РІС–РґСЃС‚Р°РЅРЅСЋ, СЃС‚Р°РЅРѕРј РїРѕРєСЂРёС‚С‚СЏ С‚Р° РїРѕС‚РѕС‡РЅРёРјРё Р·Р°С‚РѕСЂР°РјРё.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="problem-right">
+            <div class="card">
+              <h3>РђРЅР°С‚РѕРјС–СЏ РіСЂР°С„Р° РІ РЅР°РІС–РіР°С†С–С—</h3>
+              <ul class="elements-list mt-3">
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">location_on</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Р’РµСЂС€РёРЅРё (Nodes)</h4>
+                    <p>РџРµСЂРµС…СЂРµСЃС‚СЏ, РјС–СЃС‚Р°, Р°РґСЂРµСЃРё РІС–РґРїСЂР°РІР»РµРЅРЅСЏ С‚Р° РїСЂРёР±СѓС‚С‚СЏ.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">trending_flat</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Р РµР±СЂР° (Edges)</h4>
+                    <p>Р”РѕСЂРѕРіРё, РІСѓР»РёС†С–, РјР°РіС–СЃС‚СЂР°Р»С–. РњР°СЋС‚СЊ РЅР°РїСЂСЏРјРѕРє (РѕРґРЅРѕСЃС‚РѕСЂРѕРЅРЅС–Р№ СЂСѓС…).</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">timer</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Р’Р°РіР° (Weights)</h4>
+                    <p>Р’Р°СЂС‚С–СЃС‚СЊ РїСЂРѕС—Р·РґСѓ: С‡Р°СЃ Сѓ РґРѕСЂРѕР·С–, РєС–Р»РѕРјРµС‚СЂР°Р¶ Р°Р±Рѕ РІРёС‚СЂР°С‚Рё РїР°Р»СЊРЅРѕРіРѕ.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 3: Р”РµР№РєСЃС‚СЂР°: Р†РґРµСЏ -->
+    <section class="slide" data-title="Р”РµР№РєСЃС‚СЂР°: Р†РґРµСЏ">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">emoji_objects</span> РђР»РіРѕСЂРёС‚Рј Р”РµР№РєСЃС‚СЂРё: РљРѕРЅС†РµРїС†С–СЏ</h2>
+        <div class="concept-layout">
+          <div class="author-portrait-card">
+            <div class="portrait-photo-circle">
+              <img src="img/Р”РµР№РєСЃС‚СЂР° С„РѕС‚Рѕ.png" alt="Р•РґСЃРіРµСЂ Р”РµР№РєСЃС‚СЂР°">
+            </div>
+            <h3 class="author-name">Р•РґСЃРіРµСЂ Р”РµР№РєСЃС‚СЂР°</h3>
+            <span class="author-years">(1930 вЂ“ 2002)</span>
+            <span class="author-tag">РќС–РґРµСЂР»Р°РЅРґРё</span>
+          </div>
+
+          <div class="bio-card">
+            <div class="card">
+              <h4>Р¤С–Р»РѕСЃРѕС„С–СЏ "Р•РіРѕС—СЃС‚Р°"</h4>
+              <p class="lead-text" style="font-size:1.05rem;">
+                Р¦Рµ <strong>Р¶Р°РґС–Р±РЅРёР№ Р°Р»РіРѕСЂРёС‚Рј (Greedy)</strong>. РќР° РєРѕР¶РЅРѕРјСѓ РєСЂРѕС†С– РІС–РЅ РѕР±РёСЂР°С” РЅР°Р№Р±Р»РёР¶С‡Сѓ С‰Рµ РЅРµ РІС–РґРІС–РґР°РЅСѓ РІРµСЂС€РёРЅСѓ, С„С–РєСЃСѓС” С€Р»СЏС… РґРѕ РЅРµС— СЏРє РѕСЃС‚Р°С‚РѕС‡РЅРёР№ С‚Р° РїСЂРѕРІРѕРґРёС‚СЊ <strong>СЂРµР»Р°РєСЃР°С†С–СЋ</strong> С—С— СЃСѓСЃС–РґС–РІ. Р’С–РЅ В«СЃРїР°Р»СЋС” РјРѕСЃС‚РёВ» Р·Р°СЂР°РґРё РјРёС‚С‚С”РІРѕС— РІРёРіРѕРґРё.
+              </p>
+            </div>
+            <div class="card warning-card">
+              <h4>вљ пёЏ Р“РѕР»РѕРІРЅРµ РѕР±РјРµР¶РµРЅРЅСЏ</h4>
+              <p>РђР»РіРѕСЂРёС‚Рј Р”РµР№РєСЃС‚СЂРё РєРѕСЂРµРєС‚РЅРѕ РїСЂР°С†СЋС” <strong>С‚С–Р»СЊРєРё РґР»СЏ РіСЂР°С„С–РІ Р±РµР· СЂРµР±РµСЂ Р· РІС–Рґ'С”РјРЅРёРјРё РІР°РіР°РјРё</strong>: w(u, v) &ge; 0.</p>
+              <p class="mt-2" style="font-size:0.9rem; opacity:0.8;">РЇРєС‰Рѕ РІ РіСЂР°С„С– С” РІС–Рґ'С”РјРЅС– РІР°РіРё, Р¶Р°РґС–Р±РЅРёР№ РІРёР±С–СЂ С„С–РєСЃСѓС” РѕС†С–РЅРєСѓ С€Р»СЏС…Сѓ РїРµСЂРµРґС‡Р°СЃРЅРѕ, РїРѕР·Р±Р°РІР»СЏСЋС‡Рё РјРѕР¶Р»РёРІРѕСЃС‚С– Р·РЅР°Р№С‚Рё РґРµС€РµРІС€РёР№ РѕР±С…С–РґРЅРёР№ С€Р»СЏС… РїС–Р·РЅС–С€Рµ.</p>
+            </div>
+
+            <div class="expandable-bio">
+              <span class="expandable-bio-title" onclick="toggleBio(this)">
+                <span class="material-symbols-outlined">info</span>
+                Р†СЃС‚РѕСЂС–СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ (20 С…РІРёР»РёРЅ)
+                <span class="material-symbols-outlined">expand_more</span>
+              </span>
+              <div class="expandable-bio-text">
+                <div class="expandable-bio-inner">
+                  Р”РµР№РєСЃС‚СЂР° РІРёРіР°РґР°РІ С†РµР№ Р°Р»РіРѕСЂРёС‚Рј Сѓ 1956 СЂРѕС†С– РїС–Рґ С‡Р°СЃ РєР°РІСѓРІР°РЅРЅСЏ РЅР° С‚РµСЂР°СЃС– РєР°С„Рµ Р·С– СЃРІРѕС”СЋ РЅР°СЂРµС‡РµРЅРѕСЋ. Р™РѕРјСѓ РїРѕС‚СЂС–Р±РЅРѕ Р±СѓР»Рѕ РїСЂРѕРґРµРјРѕРЅСЃС‚СЂСѓРІР°С‚Рё РјРѕР¶Р»РёРІРѕСЃС‚С– РЅРѕРІРѕРіРѕ РєРѕРјРї'СЋС‚РµСЂР° ARMAC. Р’С–РЅ РѕР±СЂР°РІ Р·Р°РґР°С‡Сѓ РїРѕС€СѓРєСѓ РЅР°Р№РєРѕСЂРѕС‚С€РѕРіРѕ С€Р»СЏС…Сѓ РЅР° РґРѕСЂРѕР¶РЅС–Р№ РєР°СЂС‚С– РќС–РґРµСЂР»Р°РЅРґС–РІ РІС–Рґ Р РѕС‚С‚РµСЂРґР°РјР° РґРѕ Р“СЂРѕРЅС–РЅРіРµРЅР° С– СЂРѕР·РІ'СЏР·Р°РІ С—С— Сѓ СЃРІРѕС—Р№ РіРѕР»РѕРІС– Р·Р° 20 С…РІРёР»РёРЅ Р±РµР· РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ РїР°РїРµСЂСѓ С‚Р° РѕР»С–РІС†СЏ.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 4: РџСЃРµРІРґРѕРєРѕРґ Р”РµР№РєСЃС‚СЂРё -->
+    <section class="slide" data-title="Р”РµР№РєСЃС‚СЂР°: РџСЃРµРІРґРѕРєРѕРґ">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">code</span> РџСЃРµРІРґРѕРєРѕРґ Р°Р»РіРѕСЂРёС‚РјСѓ Р”РµР№РєСЃС‚СЂРё</h2>
+        <div class="grid-2-col-narrow-left">
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="code-title">dijkstra(G, start)</span>
+              <button class="btn-copy-code" onclick="copyCode(this, 'dijkstra-pseudo')">
+                <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                Копіювати
+              </button>
+            </div>
+            <pre><code id="dijkstra-pseudo">   <span class="t-keyword">function</span> Dijkstra(Graph, source):
+    
+       <span class="t-keyword">for each</span> vertex v <span class="t-keyword">in</span> Graph.Vertices:
+           dist[v] &larr; <span class="t-number">INFINITY</span>
+           prev[v] &larr; <span class="t-number">UNDEFINED</span>
+           add v <span class="t-keyword">to</span> Q
+      dist[source] &larr; <span class="t-number">0</span>
+     
+       <span class="t-keyword">while</span> Q <span class="t-keyword">is not</span> empty:
+          u &larr; vertex <span class="t-keyword">in</span> Q <span class="t-keyword">with</span> minimum dist[u]
+          Q.remove(u)
+         
+          <span class="t-keyword">for each</span> edge (u, v) <span class="t-keyword">in</span> Graph:
+              alt &larr; dist[u] + Graph.Distance(u,v)
+              <span class="t-keyword">if</span> alt &lt; dist[v]:
+                  dist[v] &larr; alt
+                  prev[v] &larr; u
+
+      <span class="t-keyword">return</span> dist[], prev[]</code></pre>
+          </div>
+
+          <div class="flex-col" style="gap:16px;">
+            <div class="card">
+              <h3>РЎРєР»Р°РґРЅС–СЃС‚СЊ Р°Р»РіРѕСЂРёС‚РјСѓ</h3>
+              <div class="complexity-grid mt-2">
+                <div class="complexity-pill">
+                  <span class="comp-lbl">Р— РјР°СЃРёРІРѕРј:</span>
+                  <span class="comp-val">O(V<sup>2</sup>)</span>
+                </div>
+                <div class="complexity-pill highlight">
+                  <span class="comp-lbl">Р— РґРІС–Р№РєРѕРІРѕСЋ РєСѓРїРѕСЋ:</span>
+                  <span class="comp-val">O(E log V)</span>
+                </div>
+                <div class="complexity-pill">
+                  <span class="comp-lbl">Р— РєСѓРїРѕСЋ Р¤С–Р±РѕРЅР°С‡С‡С–:</span>
+                  <span class="comp-val">O(E + V log V)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card flex-grow">
+              <h3>РљСЂРѕРєРё РІРёРєРѕРЅР°РЅРЅСЏ:</h3>
+              <ul class="steps-check-list mt-2">
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ СЃС‚Р°СЂС‚РѕРІРѕС— РІС–РґСЃС‚Р°РЅС– РІ <strong>0</strong>, СЂРµС€С‚Рё вЂ” РІ <strong>РЅРµСЃРєС–РЅС‡РµРЅРЅС–СЃС‚СЊ</strong>.</span>
+                </li>
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Р’РёР»СѓС‡РµРЅРЅСЏ Р· С‡РµСЂРіРё РїСЂС–РѕСЂРёС‚РµС‚С–РІ РІРµСЂС€РёРЅРё Р· РјС–РЅС–РјР°Р»СЊРЅРѕСЋ РґРёСЃС‚Р°РЅС†С–С”СЋ.</span>
+                </li>
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Р РµР»Р°РєСЃР°С†С–СЏ СЃСѓРјС–Р¶РЅРёС… СЂРµР±РµСЂ РґР»СЏ Р·РјРµРЅС€РµРЅРЅСЏ РїРѕС‚РѕС‡РЅРѕС— РІР°СЂС‚РѕСЃС‚С– СЃСѓСЃС–РґРЅС–С… РІРµСЂС€РёРЅ.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 5: Р‘Р»РѕРє-СЃС…РµРјР° Р”РµР№РєСЃС‚СЂРё -->
+    <section class="slide" data-title="Р”РµР№РєСЃС‚СЂР°: Р‘Р»РѕРє-СЃС…РµРјР°">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">schema</span> Р‘Р»РѕРє-СЃС…РµРјР° Р°Р»РіРѕСЂРёС‚РјСѓ Р”РµР№РєСЃС‚СЂРё</h2>
+        <div class="flowchart-container" id="flowchart-container-s5">
+          <div class="flowchart-viewport">
+            <img src="svg/Блок%20схема%20алгоритму%20Дейкстра.svg" alt="Р‘Р»РѕРє-СЃС…РµРјР° Р”РµР№РєСЃС‚СЂРё" class="flowchart-img" id="flowchart-img-s5" onerror="showFlowchartFallback(this)">
+            <div class="flowchart-fallback" style="display:none;">
+              <span class="material-symbols-outlined flowchart-fallback-icon">image_not_supported</span>
+              <h3>Р¤Р°Р№Р» dijkstra-flowchart.svg РЅРµ Р·РЅР°Р№РґРµРЅРѕ</h3>
+              <p>Р‘СѓРґСЊ Р»Р°СЃРєР°, РїРѕРјС–СЃС‚С–С‚СЊ С„Р°Р№Р» dijkstra-flowchart.svg Сѓ СЂРѕР±РѕС‡РёР№ РєР°С‚Р°Р»РѕРі.</p>
+            </div>
+          </div>
+          <div class="flowchart-controls">
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s5', 1.2)" title="Р—Р±С–Р»СЊС€РёС‚Рё"><span class="material-symbols-outlined">zoom_in</span></button>
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s5', 0.8)" title="Р—РјРµРЅС€РёС‚Рё"><span class="material-symbols-outlined">zoom_out</span></button>
+            <button class="flowchart-btn-tool" onclick="resetFlowchart('s5')" title="РЎРєРёРЅСѓС‚Рё"><span class="material-symbols-outlined">restart_alt</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 6: Р†РЅС‚РµСЂР°РєС‚РёРІРЅР° РІС–Р·СѓР°Р»С–Р·Р°С†С–СЏ Р”РµР№РєСЃС‚СЂРё -->
+    <section class="slide" data-title="Р”РµР№РєСЃС‚СЂР°: Р’С–Р·СѓР°Р»С–Р·Р°С†С–СЏ">
+      <div class="slide-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 class="slide-heading compact"><span class="material-symbols-outlined">play_circle</span> РЎРёРјСѓР»СЏС†С–СЏ СЂРѕР±РѕС‚Рё Р”РµР№РєСЃС‚СЂРё</h2>
+          <div class="preset-selector-box">
+            <label for="presets-select-s6">РћР±РµСЂС–С‚СЊ РїСЂРµСЃРµС‚:</label>
+            <select id="presets-select-s6" class="select-styled">
+              <option value="simple">РЎС‚Р°РЅРґР°СЂС‚РЅРёР№ РіСЂР°С„</option>
+              <option value="ukraine">РљР°СЂС‚Р° РјС–СЃС‚ (Р·Р°С‚РѕСЂ)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="demo-layout">
+          <div class="demo-sidebar">
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">construction</span>
+                <span>Р РµРґР°РєС‚РѕСЂ РіСЂР°С„Р°</span>
+              </div>
+              <div class="toolbar-grid">
+                <button class="btn-tool active" id="tool-drag-s6">
+                  <span class="material-symbols-outlined">open_with</span>
+                  РџРµСЂРµС‚СЏРіРЅСѓС‚Рё
+                </button>
+                <button class="btn-tool" id="tool-node-s6">
+                  <span class="material-symbols-outlined">add_circle</span>
+                  + Р’СѓР·РѕР»
+                </button>
+                <button class="btn-tool" id="tool-edge-s6">
+                  <span class="material-symbols-outlined">trending_flat</span>
+                  + Р РµР±СЂРѕ
+                </button>
+                <button class="btn-tool danger" id="tool-delete-s6">
+                  <span class="material-symbols-outlined">delete</span>
+                  Р’РёРґР°Р»РёС‚Рё
+                </button>
+              </div>
+            </div>
+
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">settings_slow_motion</span>
+                <span>РЎРёРјСѓР»СЏС†С–СЏ (Р”Р¶РµСЂРµР»Рѕ: <span class="accent-text" id="demo-start-node-s6">A</span>)</span>
+              </div>
+              <div class="algo-controls-grid">
+                <button class="btn btn-secondary btn-control" id="btn-demo-prev-s6" disabled>в—Ђ РљСЂРѕРє</button>
+                <button class="btn btn-secondary btn-control" id="btn-demo-next-s6">РљСЂРѕРє в–¶</button>
+              </div>
+              <div style="margin-top:8px;">
+                <button class="btn btn-primary" id="btn-demo-play-s6" style="width:100%;">
+                  <span class="material-symbols-outlined">play_arrow</span>
+                  <span>Р—Р°РїСѓСЃС‚РёС‚Рё СЃРёРјСѓР»СЏС†С–СЋ</span>
+                </button>
+              </div>
+              <div class="speed-slider">
+                <label for="speed-range-s6">РЁРІРёРґРєС–СЃС‚СЊ:</label>
+                <input type="range" id="speed-range-s6" min="150" max="2000" value="800" step="50">
+              </div>
+            </div>
+
+            <div class="demo-state-panel">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">list_alt</span>
+                <span>РЎС‚Р°РЅ РІРёРєРѕРЅР°РЅРЅСЏ</span>
+              </div>
+              
+              <div style="margin-bottom:8px;">
+                <span style="font-size:0.75rem; font-weight:700; color:var(--md-sys-color-outline);">Р§РµСЂРіР° Q:</span>
+                <div class="demo-queue" id="demo-queue-list-s6"></div>
+              </div>
+
+              <div class="demo-table-wrapper">
+                <table class="demo-table" id="demo-state-table-s6">
+                  <thead>
+                    <tr>
+                      <th>Р’СѓР·РѕР»</th>
+                      <th>d[v]</th>
+                      <th>РџРѕРїРµСЂРµРґРЅРёРє</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="demo-log-alert" id="demo-status-log-s6">
+                РќР°С‚РёСЃРЅС–С‚СЊ "РљСЂРѕРє" Р°Р±Рѕ "Р—Р°РїСѓСЃС‚РёС‚Рё" РґР»СЏ РїРµСЂРµРіР»СЏРґСѓ РєСЂРѕРєС–РІ Р°Р»РіРѕСЂРёС‚РјСѓ.
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <div class="canvas-header">
+              <span id="canvas-mode-indicator-s6">Р РµР¶РёРј: РџРµСЂРµС‚СЏРіСѓРІР°РЅРЅСЏ РІСѓР·Р»С–РІ</span>
+              <div class="canvas-toolbar-overlay">
+                <button class="canvas-action-btn" id="btn-demo-set-start-s6">РЎС‚Р°СЂС‚ рџ“Ќ</button>
+                <button class="canvas-action-btn" id="btn-demo-clear-s6">РћС‡РёСЃС‚РёС‚Рё</button>
+                <button class="canvas-action-btn" id="btn-demo-reset-s6">РЎРєРёРЅСѓС‚Рё</button>
+              </div>
+            </div>
+            <canvas id="canvas-interactive-s6" class="canvas-element" width="800" height="500"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 7: РџСЂР°РєС‚РёРєР° (РЎ++ Р”РµР№РєСЃС‚СЂР°) -->
+    <section class="slide" data-title="Р”РµР№РєСЃС‚СЂР°: РџСЂР°РєС‚РёРєР°">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">terminal</span> РџСЂР°РєС‚РёС‡РЅР° СЂРµР°Р»С–Р·Р°С†С–СЏ Р”РµР№РєСЃС‚СЂРё</h2>
+        
+        <div class="compiler-tabs-container" id="cpp-tabs-s7">
+          <div class="compiler-tabs-header">
+            <button class="compiler-tab-btn active" data-tab="tab-code-s7">
+              <span class="material-symbols-outlined">terminal</span>
+              РџРѕРєР°Р·Р°С‚Рё РєРѕРґ
+            </button>
+            <button class="compiler-tab-btn" data-tab="tab-compiler-s7">
+              <span class="material-symbols-outlined">open_in_browser</span>
+              Р’С–РґРєСЂРёС‚Рё РєРѕРјРїС–Р»СЏС‚РѕСЂ
+            </button>
+          </div>
+
+          <!-- Р’РєР»Р°РґРєР° РљРѕРґСѓ -->
+          <div class="compiler-tab-panel active" id="tab-code-s7">
+            <div class="code-window" style="flex-grow:1;">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="code-title">dijkstra_opt.cpp</span>
+                <button class="btn-copy-code" onclick="copyCode(this, 'cpp-dijkstra-code-text')">
+                  <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                  РљРѕРїС–СЋРІР°С‚Рё
+                </button>
+              </div>
+              <pre><code id="cpp-dijkstra-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
+
+<span class="t-keyword">using namespace</span> std;
+
+<span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// РќРµСЃРєС–РЅС‡РµРЅРЅС–СЃС‚СЊ</span>
+
+<span class="t-keyword">void</span> Dijkstra(<span class="t-keyword">int</span> vertices, <span class="t-keyword">int</span> source, <span class="t-keyword">const</span> vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt;&amp; graph) {
+    <span class="t-comment">// Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ (СЂСЏРґРєРё 3-7 РїСЃРµРІРґРѕРєРѕРґСѓ)</span>
+    vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+    vector&lt;<span class="t-keyword">bool</span>&gt; visited(vertices, <span class="t-keyword">false</span>); <span class="t-comment">// Р’РёСЃС‚СѓРїР°С” РІ СЂРѕР»С– РїРµСЂРµРІС–СЂРєРё РЅР°СЏРІРЅРѕСЃС‚С– РІ С‡РµСЂР·С– Q</span>
+    
+    dist[source] = <span class="t-number">0</span>;
+
+    <span class="t-comment">// Р“РѕР»РѕРІРЅРёР№ С†РёРєР» (СЂСЏРґРєРё 9-17)</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        <span class="t-comment">// Р—РЅР°С…РѕРґРёРјРѕ РЅРµРІС–РґРІС–РґР°РЅСѓ РІРµСЂС€РёРЅСѓ Р· РЅР°Р№РјРµРЅС€РѕСЋ РІС–РґСЃС‚Р°РЅРЅСЋ (СЂСЏРґРѕРє 10)</span>
+        <span class="t-keyword">int</span> u = -<span class="t-number">1</span>;
+        <span class="t-keyword">for</span> (<span class="t-keyword">int</span> j = <span class="t-number">0</span>; j &lt; vertices; j++) {
+            <span class="t-keyword">if</span> (!visited[j] && (u == -<span class="t-number">1</span> || dist[j] &lt; dist[u])) {
+                u = j;
+            }
+        }
+
+        <span class="t-comment">// РЇРєС‰Рѕ РЅР°Р№Р±Р»РёР¶С‡Р° РІРµСЂС€РёРЅР° РЅРµРґРѕСЃСЏР¶РЅР°, РїРµСЂРµСЂРёРІР°С”РјРѕ (Р·Р°РїРѕР±С–Р¶РЅРёРє)</span>
+        <span class="t-keyword">if</span> (dist[u] == INF) <span class="t-keyword">break</span>; 
+
+        <span class="t-comment">// Р’РёРґР°Р»СЏС”РјРѕ РІРµСЂС€РёРЅСѓ Р· С‡РµСЂРіРё РЅРµРІС–РґРІС–РґР°РЅРёС… (СЂСЏРґРѕРє 11)</span>
+        visited[u] = <span class="t-keyword">true</span>;
+
+        <span class="t-comment">// РџРµСЂРµРІС–СЂСЏС”РјРѕ РІСЃС–С… СЃСѓСЃС–РґС–РІ РѕР±СЂР°РЅРѕС— РІРµСЂС€РёРЅРё (СЂСЏРґРѕРє 13)</span>
+        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : graph[u]) {
+            <span class="t-keyword">int</span> v = edge.first;     <span class="t-comment">// СЃСѓСЃС–Рґ</span>
+            <span class="t-keyword">int</span> weight = edge.second; <span class="t-comment">// РІР°РіР° РґРѕСЂРѕРіРё РґРѕ СЃСѓСЃС–РґР°</span>
+
+            <span class="t-comment">// РЇРєС‰Рѕ Р·РЅР°Р№С€Р»Рё РєРѕСЂРѕС‚С€РёР№ С€Р»СЏС… вЂ” РѕРЅРѕРІР»СЋС”РјРѕ (СЂСЏРґРєРё 14-17)</span>
+            <span class="t-keyword">if</span> (dist[u] + weight &lt; dist[v]) {
+                dist[v] = dist[u] + weight;
+            }
+        }
+    }
+
+    <span class="t-comment">// Р’С–РґР»Р°РґРєР°: РІРёРІС–Рґ СЂРµР·СѓР»СЊС‚Р°С‚Сѓ</span>
+    cout &lt;&lt; <span class="t-string">"Р”РµР№РєСЃС‚СЂР°: РќР°Р№РєРѕСЂРѕС‚С€С– С€Р»СЏС…Рё РІС–Рґ РІРµСЂС€РёРЅРё "</span> &lt;&lt; source &lt;&lt; <span class="t-string">":\n"</span>;
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        cout &lt;&lt; <span class="t-string">"Р”Рѕ РІРµСЂС€РёРЅРё "</span> &lt;&lt; i &lt;&lt; <span class="t-string">" РІС–РґСЃС‚Р°РЅСЊ: "</span> &lt;&lt; dist[i] &lt;&lt; <span class="t-string">"\n"</span>;
+    }
+}
+
+<span class="t-keyword">int</span> main() {
+    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; <span class="t-comment">// РљС–Р»СЊРєС–СЃС‚СЊ РІРµСЂС€РёРЅ</span>
+    
+    <span class="t-comment">// РЎС‚РІРѕСЂСЋС”РјРѕ РіСЂР°С„ Сѓ РІРёРіР»СЏРґС– СЃРїРёСЃРєСѓ СЃСѓРјС–Р¶РЅРѕСЃС‚С–: РіСЂР°[Р·РІС–РґРєРё] = {РєСѓРґРё, РІР°РіР°}</span>
+    vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt; graph(V);
+    graph[<span class="t-number">0</span>].push_back({<span class="t-number">1</span>, <span class="t-number">10</span>});
+    graph[<span class="t-number">0</span>].push_back({<span class="t-number">4</span>, <span class="t-number">5</span>});
+    graph[<span class="t-number">1</span>].push_back({<span class="t-number">2</span>, <span class="t-number">1</span>});
+    graph[<span class="t-number">1</span>].push_back({<span class="t-number">4</span>, <span class="t-number">2</span>});
+    graph[<span class="t-number">2</span>].push_back({<span class="t-number">3</span>, <span class="t-number">4</span>});
+    graph[<span class="t-number">3</span>].push_back({<span class="t-number">2</span>, <span class="t-number">6</span>});
+    graph[<span class="t-number">3</span>].push_back({<span class="t-number">0</span>, <span class="t-number">7</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">1</span>, <span class="t-number">3</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">2</span>, <span class="t-number">9</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">3</span>, <span class="t-number">2</span>});
+
+    Dijkstra(V, <span class="t-number">0</span>, graph);
+    <span class="t-keyword">return</span> <span class="t-number">0</span>;
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Р’РєР»Р°РґРєР° РљРѕРјРїС–Р»СЏС‚РѕСЂР° (РќР° РІРµСЃСЊ РµРєСЂР°РЅ) -->
+          <div class="compiler-tab-panel" id="tab-compiler-s7">
+            <div class="fullscreen-compiler-wrapper">
+              <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 8: Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: Р†РґРµСЏ -->
+    <section class="slide" data-title="Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: Р†РґРµСЏ">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">insights</span> РђР»РіРѕСЂРёС‚Рј Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°: РљРѕРЅС†РµРїС†С–СЏ</h2>
+        <div class="concept-layout">
+          <div class="author-portrait-card">
+            <div class="author-duo-portraits">
+              <div class="author-single-duo">
+                <div class="portrait-photo-circle">
+                  <img src="img/Р‘РµР»Р»РјР°РЅ С„РѕС‚Рѕ.png" alt="Р С–С‡Р°СЂРґ Р‘РµР»Р»РјР°РЅ">
+                </div>
+                <h3 class="author-name">Р . Р‘РµР»Р»РјР°РЅ</h3>
+              </div>
+              <div class="author-single-duo">
+                <div class="portrait-photo-circle">
+                  <img src="img/Р¤РѕСЂРґ С„РѕС‚Рѕ.png" alt="Р›РµСЃС‚РµСЂ Р¤РѕСЂРґ">
+                </div>
+                <h3 class="author-name">Р›. Р¤РѕСЂРґ</h3>
+              </div>
+            </div>
+            <span class="author-tag">РЎРЁРђ (1956 - 1958)</span>
+          </div>
+
+          <div class="bio-card">
+            <div class="card">
+              <h4>Р¤С–Р»РѕСЃРѕС„С–СЏ "РџР°СЂР°РЅРѕС—РєР°"</h4>
+              <p class="lead-text" style="font-size:1.05rem;">
+                Р‘Р°Р·СѓС”С‚СЊСЃСЏ РЅР° С–РґРµС— <strong>РґРёРЅР°РјС–С‡РЅРѕРіРѕ РїСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏ</strong>. Р’С–РЅ РґС–С” РѕР±РµСЂРµР¶РЅРѕ С‚Р° РјРµС‚РѕРґРёС‡РЅРѕ. Р—Р°РјС–СЃС‚СЊ РІРёР±РѕСЂСѓ РЅР°Р№РєРѕСЂРѕС‚С€РѕРіРѕ СЂРµР±СЂР° РІС–РЅ СЂРѕР±РёС‚СЊ <strong>V - 1 РїРѕРІРЅРёС… РїСЂРѕС…РѕРґС–РІ</strong> РїРѕ РІСЃС–С… СЂРµР±СЂР°С… РіСЂР°С„Р°, РѕРЅРѕРІР»СЋСЋС‡Рё РІС–РґСЃС‚Р°РЅС–. Р’С–РЅ РЅС–РєРѕРјСѓ РЅРµ РґРѕРІС–СЂСЏС” РЅР°РїРµСЂРµРґ.
+              </p>
+            </div>
+            <div class="card success-card" style="background-color: rgba(52, 211, 153, 0.05); border-left: 5px solid var(--md-sys-color-primary); border-color: rgba(52, 211, 153, 0.25);">
+              <h4 style="color:var(--md-sys-color-primary);">вњ”пёЏ РџРµСЂРµРІР°РіРё РїС–РґС…РѕРґСѓ</h4>
+              <p>РќР° РІС–РґРјС–РЅСѓ РІС–Рґ Р”РµР№РєСЃС‚СЂРё, Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ <strong>Р»РµРіРєРѕ РїСЂР°С†СЋС” Р· РЅРµРіР°С‚РёРІРЅРёРјРё РІР°РіР°РјРё</strong> С‚Р° РІРјС–С” РґРµС‚РµРєС‚СѓРІР°С‚Рё РЅРµР±РµР·РїРµС‡РЅС– РІС–Рґ'С”РјРЅС– С†РёРєР»Рё.</p>
+            </div>
+
+            <div class="expandable-bio">
+              <span class="expandable-bio-title" onclick="toggleBio(this)">
+                <span class="material-symbols-outlined">info</span>
+                Р—РІС–РґРєРё РІР·СЏРІСЃСЏ С†РµР№ РјРµС‚РѕРґ?
+                <span class="material-symbols-outlined">expand_more</span>
+              </span>
+              <div class="expandable-bio-text">
+                <div class="expandable-bio-inner">
+                  Р С–С‡Р°СЂРґ Р‘РµР»Р»РјР°РЅ СЃС„РѕСЂРјСѓР»СЋРІР°РІ РєРѕРЅС†РµРїС†С–СЋ РґРёРЅР°РјС–С‡РЅРѕРіРѕ РїСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏ Сѓ RAND Corporation. Р™РѕРјСѓ РґРѕРІРµР»РѕСЃСЏ РІРёРіР°РґР°С‚Рё С‚Р°РєСѓ РЅРµР·РІРёС‡РЅСѓ РЅР°Р·РІСѓ, С‰РѕР± РїСЂРёС…РѕРІР°С‚Рё РІС–Рґ РјС–РЅС–СЃС‚СЂР° РѕР±РѕСЂРѕРЅРё РЎРЁРђ, СЏРєРёР№ РЅРµ Р»СЋР±РёРІ РјР°С‚РµРјР°С‚РёРєСѓ, С‚РµРѕСЂРµС‚РёС‡РЅРёР№ С…Р°СЂР°РєС‚РµСЂ РґРѕСЃР»С–РґР¶РµРЅСЊ. РЎР»РѕРІРѕ В«РїСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏВ» С‚РѕРґС– РѕР·РЅР°С‡Р°Р»Рѕ РїСЂРѕСЃС‚Рѕ РїР»Р°РЅСѓРІР°РЅРЅСЏ, Р° В«РґРёРЅР°РјС–С‡РЅРёР№В» Р·РІСѓС‡Р°Р»Рѕ РїСЂРѕРіСЂРµСЃРёРІРЅРѕ. Р›РµСЃС‚РµСЂ Р¤РѕСЂРґ РґРѕРїРѕРІРЅРёРІ СЃРёСЃС‚РµРјСѓ С–РґРµС”СЋ РїРѕРєСЂРѕРєРѕРІРѕС— СЂРµР»Р°РєСЃР°С†С–С—.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 9: РџСЃРµРІРґРѕРєРѕРґ Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР° -->
+    <section class="slide" data-title="Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: РџСЃРµРІРґРѕРєРѕРґ">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">code</span> РџСЃРµРІРґРѕРєРѕРґ Р°Р»РіРѕСЂРёС‚РјСѓ Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°</h2>
+        <div class="grid-2-col-narrow-left">
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="code-title">bellman_ford(G, start)</span>
+              <button class="btn-copy-code" onclick="copyCode(this, 'bf-pseudo')">
+                <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                РљРѕРїС–СЋРІР°С‚Рё
+              </button>
+            </div>
+            <pre><code id="bf-pseudo"> <span class="t-comment">// Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ</span>
+ <span class="t-keyword">РґР»СЏ РєРѕР¶РЅРѕС—</span> РІРµСЂС€РёРЅРё v &isin; G.V
+     v.d = &infin;
+     v.&pi; = NIL
+ s.d = <span class="t-number">0</span> // РћСЃРЅРѕРІРЅР° С‡Р°СЃС‚РёРЅР°
+ <span class="t-keyword">РґР»СЏ</span> i = <span class="t-number">1</span> <span class="t-keyword">РґРѕ</span> |G.V| - <span class="t-number">1</span>
+     <span class="t-keyword">РґР»СЏ РєРѕР¶РЅРѕРіРѕ</span> СЂРµР±СЂР° (u, v) &isin; G.E
+         <span class="t-keyword">СЏРєС‰Рѕ</span> v.d &gt; u.d + w(u, v)
+             v.d = u.d + w(u, v)
+             v.&pi; = u <span class="t-comment">// Р·Р±РµСЂС–РіР°С”РјРѕ РїРѕРїРµСЂРµРґРЅСЋ РІРµСЂС€РёРЅСѓ</span>
+ <span class="t-comment">// РџРµСЂРµРІС–СЂРєР° РЅР° РЅР°СЏРІРЅС–СЃС‚СЊ С†РёРєР»С–РІ Р· РІС–Рґ'С”РјРЅРѕСЋ РІР°РіРѕСЋ</span>
+ <span class="t-keyword">РґР»СЏ РєРѕР¶РЅРѕРіРѕ</span> СЂРµР±СЂР° (u, v) &isin; G.E
+     <span class="t-keyword">СЏРєС‰Рѕ</span> v.d &gt; u.d + w(u, v)
+         <span class="t-keyword">РїРѕРІРµСЂРЅСѓС‚Рё</span> РҐРР‘Рђ
+ <span class="t-keyword">РїРѕРІРµСЂРЅСѓС‚Рё</span> Р†РЎРўРРќРђ</code></pre>
+          </div>
+
+          <div class="flex-col" style="gap:16px;">
+            <div class="card">
+              <h3>РЎРєР»Р°РґРЅС–СЃС‚СЊ Р°Р»РіРѕСЂРёС‚РјСѓ</h3>
+              <div class="complexity-grid mt-2">
+                <div class="complexity-pill highlight">
+                  <span class="comp-lbl">Р§Р°СЃРѕРІР° СЃРєР»Р°РґРЅС–СЃС‚СЊ:</span>
+                  <span class="comp-val">O(V &middot; E)</span>
+                </div>
+                <div class="complexity-pill">
+                  <span class="comp-lbl">РџСЂРѕСЃС‚РѕСЂРѕРІР° СЃРєР»Р°РґРЅС–СЃС‚СЊ:</span>
+                  <span class="comp-val">O(V)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card flex-grow">
+              <h3>РџСЂРёРЅС†РёРї V-1 РєСЂРѕРєС–РІ:</h3>
+              <p style="font-size:0.9rem; color:var(--md-sys-color-on-surface-variant); line-height:1.5;">
+                Р‘СѓРґСЊ-СЏРєРёР№ РЅР°Р№РєРѕСЂРѕС‚С€РёР№ РїСЂРѕСЃС‚С–Р№ С€Р»СЏС… РјС–СЃС‚РёС‚СЊ РЅРµ Р±С–Р»СЊС€Рµ <strong>V - 1 СЂРµР±РµСЂ</strong>. РЇРєС‰Рѕ РїС–СЃР»СЏ V - 1 С–С‚РµСЂР°С†С–Р№ РјРё Р·РЅРѕРІСѓ РјРѕР¶РµРјРѕ СЂРµР»Р°РєСЃСѓРІР°С‚Рё С…РѕС‡ РѕРґРЅРµ СЂРµР±СЂРѕ вЂ” РіСЂР°С„ РјС–СЃС‚РёС‚СЊ <strong>РІС–Рґ'С”РјРЅРёР№ С†РёРєР»</strong>. РЁР»СЏС… С‡РµСЂРµР· С‚Р°РєРёР№ С†РёРєР» РґРѕСЂС–РІРЅСЋРІР°С‚РёРјРµ РјС–РЅСѓСЃ РЅРµСЃРєС–РЅС‡РµРЅРЅРѕСЃС‚С–.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 10: Р‘Р»РѕРє-СЃС…РµРјР° Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР° -->
+    <section class="slide" data-title="Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: Р‘Р»РѕРє-СЃС…РµРјР°">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">schema</span> Р‘Р»РѕРє-СЃС…РµРјР° Р°Р»РіРѕСЂРёС‚РјСѓ Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°</h2>
+        <div class="flowchart-container" id="flowchart-container-s10">
+          <div class="flowchart-viewport">
+            <img src="svg/Блок%20схема%20алгоритму%20Беллмана%20-%20Форда.svg" alt="Р‘Р»РѕРє-СЃС…РµРјР° Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°" class="flowchart-img" id="flowchart-img-s10" onerror="showFlowchartFallback(this)">
+            <div class="flowchart-fallback" style="display:none;">
+              <span class="material-symbols-outlined flowchart-fallback-icon">image_not_supported</span>
+              <h3>Р¤Р°Р№Р» bellman-ford-flowchart.svg РЅРµ Р·РЅР°Р№РґРµРЅРѕ</h3>
+              <p>Р‘СѓРґСЊ Р»Р°СЃРєР°, РїРѕРјС–СЃС‚С–С‚СЊ С„Р°Р№Р» bellman-ford-flowchart.svg Сѓ СЂРѕР±РѕС‡РёР№ РєР°С‚Р°Р»РѕРі.</p>
+            </div>
+          </div>
+          <div class="flowchart-controls">
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s10', 1.2)" title="Р—Р±С–Р»СЊС€РёС‚Рё"><span class="material-symbols-outlined">zoom_in</span></button>
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s10', 0.8)" title="Р—РјРµРЅС€РёС‚Рё"><span class="material-symbols-outlined">zoom_out</span></button>
+            <button class="flowchart-btn-tool" onclick="resetFlowchart('s10')" title="РЎРєРёРЅСѓС‚Рё"><span class="material-symbols-outlined">restart_alt</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 11: Р’С–Р·СѓР°Р»С–Р·Р°С†С–СЏ / РџСЂРѕР±Р»РµРјР° Р”РµР№РєСЃС‚СЂРё -->
+    <section class="slide" data-title="BF: Р’С–Р·СѓР°Р»С–Р·Р°С†С–СЏ">
+      <div class="slide-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 class="slide-heading compact"><span class="material-symbols-outlined">report_problem</span> Р РѕР±РѕС‚Р° Р· РІС–Рґ'С”РјРЅРёРјРё РІР°РіР°РјРё (Р—Р±С–Р№ Р”РµР№РєСЃС‚СЂРё)</h2>
+          <div class="preset-selector-box">
+            <label for="presets-select-s11">РћР±РµСЂС–С‚СЊ РїСЂРµСЃРµС‚:</label>
+            <select id="presets-select-s11" class="select-styled">
+              <option value="negative">РќРµРіР°С‚РёРІРЅС– РІР°РіРё (Р±РµР· С†РёРєР»Сѓ)</option>
+              <option value="neg-cycle">РќРµРіР°С‚РёРІРЅРёР№ С†РёРєР»</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="demo-layout">
+          <div class="demo-sidebar">
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">menu_open</span>
+                <span>РћР±РµСЂС–С‚СЊ Р°Р»РіРѕСЂРёС‚Рј</span>
+              </div>
+              <div class="algo-selection-box">
+                <label class="algo-radio selected" id="lbl-algo-dijkstra-s11">
+                  <input type="radio" name="select-algorithm-s11" value="dijkstra" checked>
+                  Р”РµР№РєСЃС‚СЂР° (РґР°СЃС‚СЊ Р·Р±С–Р№)
+                </label>
+                <label class="algo-radio" id="lbl-algo-bf-s11">
+                  <input type="radio" name="select-algorithm-s11" value="bellmanford">
+                  Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ (РєРѕСЂРµРєС‚РЅРѕ)
+                </label>
+              </div>
+            </div>
+
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">settings_slow_motion</span>
+                <span>РЎРёРјСѓР»СЏС†С–СЏ (Р”Р¶РµСЂРµР»Рѕ: <span class="accent-text" id="demo-start-node-s11">S</span>)</span>
+              </div>
+              <div class="algo-controls-grid">
+                <button class="btn btn-secondary btn-control" id="btn-demo-prev-s11" disabled>в—Ђ РљСЂРѕРє</button>
+                <button class="btn btn-secondary btn-control" id="btn-demo-next-s11">РљСЂРѕРє в–¶</button>
+              </div>
+              <div style="margin-top:8px;">
+                <button class="btn btn-primary" id="btn-demo-play-s11" style="width:100%;">
+                  <span class="material-symbols-outlined">play_arrow</span>
+                  <span>Р—Р°РїСѓСЃС‚РёС‚Рё СЃРёРјСѓР»СЏС†С–СЋ</span>
+                </button>
+              </div>
+              <div class="speed-slider">
+                <label for="speed-range-s11">РЁРІРёРґРєС–СЃС‚СЊ:</label>
+                <input type="range" id="speed-range-s11" min="150" max="2000" value="800" step="50">
+              </div>
+            </div>
+
+            <div class="demo-state-panel">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">analytics</span>
+                <span>РЎС‚Р°РЅ РІРёРєРѕРЅР°РЅРЅСЏ</span>
+              </div>
+              
+              <div id="bf-details-box-s11" style="display:none; font-size:0.8rem; font-weight:600; margin-bottom:6px; color:var(--md-sys-color-primary);">
+                Р†С‚РµСЂР°С†С–СЏ: <span id="bf-pass-indicator-s11">0 / V-1</span> | Р РµР±СЂРѕ: <span id="bf-edge-indicator-s11">-</span>
+              </div>
+
+              <div id="dijkstra-queue-box-s11">
+                <span style="font-size:0.75rem; font-weight:700; color:var(--md-sys-color-outline);">Р§РµСЂРіР° Q:</span>
+                <div class="demo-queue" id="demo-queue-list-s11"></div>
+              </div>
+
+              <div class="demo-table-wrapper">
+                <table class="demo-table" id="demo-state-table-s11">
+                  <thead>
+                    <tr>
+                      <th>Р’СѓР·РѕР»</th>
+                      <th>d[v]</th>
+                      <th>РџРѕРїРµСЂРµРґРЅРёРє</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="demo-log-alert" id="demo-status-log-s11">
+                Р—Р°РїСѓСЃС‚С–С‚СЊ Р°Р»РіРѕСЂРёС‚Рј, С‰РѕР± РїРѕСЂС–РІРЅСЏС‚Рё СЂРѕР±РѕС‚Сѓ Р”РµР№РєСЃС‚СЂРё С‚Р° Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°.
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <div class="canvas-header">
+              <span id="canvas-mode-indicator-s11">РџРѕСЂС–РІРЅСЏРЅРЅСЏ Р°Р»РіРѕСЂРёС‚РјС–РІ РЅР° РіСЂР°С„Р°С… С–Р· РІС–Рґ'С”РјРЅРёРјРё РІР°РіР°РјРё</span>
+              <div class="canvas-toolbar-overlay">
+                <button class="canvas-action-btn" id="btn-demo-set-start-s11">РЎС‚Р°СЂС‚ рџ“Ќ</button>
+                <button class="canvas-action-btn" id="btn-demo-clear-s11">РћС‡РёСЃС‚РёС‚Рё</button>
+                <button class="canvas-action-btn" id="btn-demo-reset-s11">РЎРєРёРЅСѓС‚Рё</button>
+              </div>
+            </div>
+            <canvas id="canvas-interactive-s11" class="canvas-element" width="800" height="500"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 12: РџСЂР°РєС‚РёРєР° (РЎ++ Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ) -->
+    <section class="slide" data-title="Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: РџСЂР°РєС‚РёРєР°">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">terminal</span> РџСЂР°РєС‚РёС‡РЅР° СЂРµР°Р»С–Р·Р°С†С–СЏ Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°</h2>
+        
+        <div class="compiler-tabs-container" id="cpp-tabs-s12">
+          <div class="compiler-tabs-header">
+            <button class="compiler-tab-btn active" data-tab="tab-code-s12">
+              <span class="material-symbols-outlined">terminal</span>
+              РџРѕРєР°Р·Р°С‚Рё РєРѕРґ
+            </button>
+            <button class="compiler-tab-btn" data-tab="tab-compiler-s12">
+              <span class="material-symbols-outlined">open_in_browser</span>
+              Р’С–РґРєСЂРёС‚Рё РєРѕРјРїС–Р»СЏС‚РѕСЂ
+            </button>
+          </div>
+
+          <!-- Р’РєР»Р°РґРєР° РљРѕРґСѓ -->
+          <div class="compiler-tab-panel active" id="tab-code-s12">
+            <div class="code-window" style="flex-grow:1;">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="code-title">bellman_ford.cpp</span>
+                <button class="btn-copy-code" onclick="copyCode(this, 'cpp-bf-code-text')">
+                  <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                  РљРѕРїС–СЋРІР°С‚Рё
+                </button>
+              </div>
+              <pre><code id="cpp-bf-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
+
+<span class="t-keyword">using namespace</span> std;
+
+<span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ Р·РЅР°С‡РµРЅРЅСЏ РЅРµСЃРєС–РЅС‡РµРЅРЅРѕСЃС‚С–</span>
+
+<span class="t-comment">// РЎС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ Р·Р±РµСЂС–РіР°РЅРЅСЏ СЂРµР±СЂР° (Р·РІС–РґРєРё, РєСѓРґРё, РІР°РіР°)</span>
+<span class="t-struct">struct</span> Edge {
+    <span class="t-keyword">int</span> u, v, weight;
+};
+
+<span class="t-keyword">void</span> BellmanFord(<span class="t-keyword">int</span> vertices, <span class="t-keyword">int</span> source, <span class="t-keyword">const</span> vector&lt;Edge&gt;&amp; edges) {
+    <span class="t-comment">// 1. Р†РЅС–С†С–Р°Р»С–Р·Р°С†С–СЏ: РІСЃС– РІС–РґСЃС‚Р°РЅС– = &infin;, РєСЂС–Рј РїРѕС‡Р°С‚РєРѕРІРѕС—</span>
+    vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+    dist[source] = <span class="t-number">0</span>;
+
+    <span class="t-comment">// 2. РћСЃРЅРѕРІРЅР° С‡Р°СЃС‚РёРЅР°: СЂРѕР·СЃР»Р°Р±Р»РµРЅРЅСЏ РІСЃС–С… СЂРµР±РµСЂ (V - 1) СЂР°Р·С–РІ</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">1</span>; i &lt;= vertices - <span class="t-number">1</span>; i++) {
+        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+            <span class="t-comment">// РЇРєС‰Рѕ С€Р»СЏС… РґРѕ u РІС–РґРѕРјРёР№ С– С‡РµСЂРµР· u РґРѕ v Р±Р»РёР¶С‡Рµ, РЅС–Р¶ РЅР°РїСЂСЏРјСѓ:</span>
+            <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+                dist[edge.v] = dist[edge.u] + edge.weight; <span class="t-comment">// РћРЅРѕРІР»СЋС”РјРѕ РІС–РґСЃС‚Р°РЅСЊ</span>
+            }
+        }
+    }
+
+    <span class="t-comment">// 3. РџРµСЂРµРІС–СЂРєР° РЅР° РЅР°СЏРІРЅС–СЃС‚СЊ С†РёРєР»С–РІ Р· РІС–Рґ'С”РјРЅРѕСЋ РІР°РіРѕСЋ</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+        <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+            cout &lt;&lt; <span class="t-string">"РџРѕРјРёР»РєР°: РЈ РіСЂР°С„С– С” С†РёРєР» Р· РІС–Рґ'С”РјРЅРѕСЋ РІР°РіРѕСЋ!"</span> &lt;&lt; endl;
+            <span class="t-keyword">return</span>; <span class="t-comment">// РҐРР‘Рђ</span>
+        }
+    }
+
+    <span class="t-comment">// Р’С–РґР»Р°РґРєР°: РІРёРІС–Рґ СЂРµР·СѓР»СЊС‚Р°С‚Сѓ (Р†РЎРўРРќРђ)</span>
+    cout &lt;&lt; <span class="t-string">"Р‘РµР»Р»РјР°РЅ-Р¤РѕСЂРґ: РќР°Р№РєРѕСЂРѕС‚С€С– С€Р»СЏС…Рё РІС–Рґ РІРµСЂС€РёРЅРё "</span> &lt;&lt; source &lt;&lt; <span class="t-string">":\n"</span>;
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        cout &lt;&lt; <span class="t-string">"Р”Рѕ РІРµСЂС€РёРЅРё "</span> &lt;&lt; i &lt;&lt; <span class="t-string">" РІС–РґСЃС‚Р°РЅСЊ: "</span> &lt;&lt; dist[i] &lt;&lt; <span class="t-string">"\n"</span>;
+    }
+}
+
+<span class="t-keyword">int</span> main() {
+    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; <span class="t-comment">// РљС–Р»СЊРєС–СЃС‚СЊ РІРµСЂС€РёРЅ</span>
+    vector&lt;Edge&gt; edges = {
+        {<span class="t-number">0</span>, <span class="t-number">1</span>, <span class="t-number">6</span>}, {<span class="t-number">0</span>, <span class="t-number">3</span>, <span class="t-number">7</span>}, {<span class="t-number">1</span>, <span class="t-number">2</span>, <span class="t-number">5</span>}, 
+        {<span class="t-number">1</span>, <span class="t-number">3</span>, <span class="t-number">8</span>}, {<span class="t-number">1</span>, <span class="t-number">4</span>, -<span class="t-number">4</span>}, {<span class="t-number">2</span>, <span class="t-number">1</span>, -<span class="t-number">2</span>}, 
+        {<span class="t-number">3</span>, <span class="t-number">2</span>, -<span class="t-number">3</span>}, {<span class="t-number">3</span>, <span class="t-number">4</span>, <span class="t-number">9</span>}, {<span class="t-number">4</span>, <span class="t-number">0</span>, <span class="t-number">2</span>}, {<span class="t-number">4</span>, <span class="t-number">2</span>, <span class="t-number">7</span>}
+    };
+
+    BellmanFord(V, <span class="t-number">0</span>, edges);
+    <span class="t-keyword">return</span> <span class="t-number">0</span>;
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Р’РєР»Р°РґРєР° РљРѕРјРїС–Р»СЏС‚РѕСЂР° (РќР° РІРµСЃСЊ РµРєСЂР°РЅ) -->
+          <div class="compiler-tab-panel" id="tab-compiler-s12">
+            <div class="fullscreen-compiler-wrapper">
+              <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 13: РџРѕСЂС–РІРЅСЏРЅРЅСЏ С‚Р° Р—Р°СЃС‚РѕСЃСѓРІР°РЅРЅСЏ -->
+    <section class="slide" data-title="РџРѕСЂС–РІРЅСЏРЅРЅСЏ С‚Р° Р—Р°СЃС‚РѕСЃСѓРІР°РЅРЅСЏ">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">balance</span> РџРѕСЂС–РІРЅСЏРЅРЅСЏ Р°Р»РіРѕСЂРёС‚РјС–РІ С‚Р° СЃС„РµСЂР° Р·Р°СЃС‚РѕСЃСѓРІР°РЅРЅСЏ</h2>
+        
+        <div class="comparison-layout">
+          <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>РџР°СЂР°РјРµС‚СЂРё</th>
+                  <th>РђР»РіРѕСЂРёС‚Рј Р”РµР№РєСЃС‚СЂРё</th>
+                  <th>РђР»РіРѕСЂРёС‚Рј Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР°</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>РљР»Р°СЃ Р°Р»РіРѕСЂРёС‚РјСѓ</strong></td>
+                  <td>Р–Р°РґС–Р±РЅРёР№ (Greedy)</td>
+                  <td>Р”РёРЅР°РјС–С‡РЅРµ РїСЂРѕРіСЂР°РјСѓРІР°РЅРЅСЏ</td>
+                </tr>
+                <tr>
+                  <td><strong>РЎРєР»Р°РґРЅС–СЃС‚СЊ Сѓ С‡РµСЂР·С–</strong></td>
+                  <td><span class="better-stat">O(E log V)</span></td>
+                  <td><span class="worse-stat">O(V &middot; E)</span> (РїРѕРІС–Р»СЊРЅС–С€РёР№)</td>
+                </tr>
+                <tr>
+                  <td><strong>Р РµР±СЂР° w(u, v) &lt; 0</strong></td>
+                  <td><span class="worse-stat">Р—Р±С–Р№</span></td>
+                  <td><span class="better-stat">РџСЂР°С†СЋС” РєРѕСЂРµРєС‚РЅРѕ</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Р¦РёРєР»Рё РІС–Рґ'С”РјРЅРѕС— РІР°РіРё</strong></td>
+                  <td><span class="worse-stat">РќРµ Р±Р°С‡РёС‚СЊ</span></td>
+                  <td><span class="better-stat">Р’РёР·РЅР°С‡Р°С” (V-Р№ РєСЂРѕРє)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>РњР°СЂС€СЂСѓС‚РёР·Р°С†С–СЏ</strong></td>
+                  <td>OSPF (Link-State)</td>
+                  <td>RIP (Distance-Vector)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="apps-grid">
+            <div class="card">
+              <h3>рџ—єпёЏ GPS-РєР°СЂС‚Рё (Google Maps, Uber)</h3>
+              <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height:1.6;">
+                РќР° Р·РІРёС‡Р°Р№РЅС–Р№ РґРѕСЂРѕР¶РЅС–Р№ РєР°СЂС‚С– РЅРµРјР°С” РґРѕСЂС–Рі С–Р· РІС–Рґ'С”РјРЅРёРј С‡Р°СЃРѕРј С‡Рё РІС–РґСЃС‚Р°РЅРЅСЋ (РЅРµРјРѕР¶Р»РёРІРѕ РїСЂРёС—С…Р°С‚Рё РІ РјС–СЃС‚Рѕ СЂР°РЅС–С€Рµ, РЅС–Р¶ РІРё РІРёС—С…Р°Р»Рё). РўРѕРјСѓ Р»РѕРіС–СЃС‚РёС‡РЅС– СЃРµСЂРІС–СЃРё РІРёРєРѕСЂРёСЃС‚РѕРІСѓСЋС‚СЊ РјРѕРґРёС„С–РєР°С†С–С— С€РІРёРґРєРѕРґС–СЋС‡РѕРіРѕ <strong>Р”РµР№РєСЃС‚СЂРё (Р°Р»РіРѕСЂРёС‚Рј A* С‚Р° Road Hierarchies)</strong>.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>рџЊђ РњРµСЂРµР¶Р° Р†РЅС‚РµСЂРЅРµС‚ С‚Р° СЂРѕСѓС‚РµСЂРё</h3>
+              <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height:1.6;">
+                РЈ РєРѕРјРї'СЋС‚РµСЂРЅРёС… РјРµСЂРµР¶Р°С… РїСЂРѕС‚РѕРєРѕР» <strong>OSPF</strong> РІРёРєРѕСЂРёСЃС‚РѕРІСѓС” Р”РµР№РєСЃС‚СЂСѓ РґР»СЏ Р»РѕРєР°Р»СЊРЅРѕС— РєР°СЂС‚Рё РєРѕР¶РЅРѕРіРѕ СЂРѕСѓС‚РµСЂР°. РџСЂРѕС‚РѕРєРѕР» <strong>RIP</strong> РІРёРєРѕСЂРёСЃС‚РѕРІСѓС” Р‘РµР»Р»РјР°РЅР°-Р¤РѕСЂРґР° РґР»СЏ РѕР±РјС–РЅСѓ РІРµРєС‚РѕСЂР°РјРё РІС–РґСЃС‚Р°РЅРµР№ РјС–Р¶ СЃСѓСЃС–РґР°РјРё Р±РµР· Р·РЅР°РЅРЅСЏ РїРѕРІРЅРѕС— С‚РѕРїРѕР»РѕРіС–С—.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РЎР›РђР™Р” 14: Р¤С–РЅР°Р» -->
+    <section class="slide" data-title="Р¤С–РЅР°Р»">
+      <div class="slide-content hero-slide">
+        <div class="hero-card">
+          <div class="badge">
+            <span class="material-symbols-outlined">workspace_premium</span>
+            <span>Р—Р°РІРµСЂС€РµРЅРЅСЏ РїСЂРµР·РµРЅС‚Р°С†С–С—</span>
+          </div>
+          <h1 class="hero-title large">Р”СЏРєСѓСЋ Р·Р° СѓРІР°РіСѓ!</h1>
+          <p class="hero-subtitle" style="margin-bottom:24px;">Р“РѕС‚РѕРІРёР№ РІРёСЃР»СѓС…Р°С‚Рё РІР°С€С– Р·Р°РїРёС‚Р°РЅРЅСЏ С‚Р° РєРѕРјРµРЅС‚Р°СЂС–.</p>
+          
+          <div class="card" style="background-color:var(--md-sys-color-surface-container-high); border:1px solid var(--md-sys-color-outline-variant); margin-top:24px; padding:16px;">
+            <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant);">
+              РџСЂРµР·РµРЅС‚Р°С†С–СЏ СЃС‚РІРѕСЂРµРЅР° Р· РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏРј С–РЅС‚РµСЂР°РєС‚РёРІРЅРѕРіРѕ Canvas СЂСѓС€С–СЏ, Google Material 3 Dark UI, С‚Р° C++ РїС–СЃРѕС‡РЅРёС†С– OneCompiler.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- РџР°РЅРµР»СЊ РєРµСЂСѓРІР°РЅРЅСЏ РїСЂРµР·РµРЅС‚Р°С†С–С”СЋ Р·РЅРёР·Сѓ (Footer) -->
+  <footer class="app-footer">
+    <button class="btn btn-control btn-secondary" id="control-prev" aria-label="РџРѕРїРµСЂРµРґРЅС–Р№ СЃР»Р°Р№Рґ">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span>РќР°Р·Р°Рґ</span>
+    </button>
+
+    <div class="presentation-dots" id="presentation-dots">
+      <!-- РЎС‚РІРѕСЂСЋРІР°С‚РёРјРµС‚СЊСЃСЏ РґРёРЅР°РјС–С‡РЅРѕ РІ JS -->
+    </div>
+
+    <button class="btn btn-control btn-primary" id="control-next" aria-label="РќР°СЃС‚СѓРїРЅРёР№ СЃР»Р°Р№Рґ">
+      <span>Р”Р°Р»С–</span>
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // РџСЂРѕСЃС‚Р° С„СѓРЅРєС†С–СЏ РєРѕРїС–СЋРІР°РЅРЅСЏ РєРѕРґСѓ Р· Р±РµР·РїРµС‡РЅРёРј РѕС‚СЂРёРјР°РЅРЅСЏРј РєРЅРѕРїРєРё-С‚СЂРёРіРµСЂР°
+    function copyCode(btn, elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        if (btn) {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = `<span class="material-symbols-outlined" style="font-size:1rem;">check</span> РЎРєРѕРїС–Р№РѕРІР°РЅРѕ!`;
+          btn.style.backgroundColor = "var(--md-sys-color-primary)";
+          btn.style.color = "var(--md-sys-color-on-primary)";
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.backgroundColor = "";
+            btn.style.color = "";
+          }, 1500);
+        }
+      });
+    }
+
+    // Р—Р°РїРѕР±С–РіР°РЅРЅСЏ Р»Р°РјР°РЅРЅСЋ Р·РѕР±СЂР°Р¶РµРЅСЊ Р±Р»РѕРє-СЃС…РµРј
+    function showFlowchartFallback(img) {
+      img.style.display = 'none';
+      const fallback = img.nextElementSibling;
+      if (fallback) fallback.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

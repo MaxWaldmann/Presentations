@@ -1,0 +1,979 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Дейкстра та Беллман-Форд | Інтерактивна SPA-Презентація</title>
+  <meta name="description" content="Інтерактивна SPA-презентація про алгоритми пошуку найкоротшого шляху на графах: Дейкстри та Беллмана-Форда в стилі Material 3.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Навігаційна панель зверху (Header) -->
+  <header class="app-header">
+    <div class="logo">
+      <div class="logo-icon-wrapper">
+        <span class="material-symbols-outlined" style="font-size: 32px;">route</span>
+      </div>
+      <span class="logo-text">Маршрутизація</span>
+    </div>
+    
+    <div class="header-center">
+      <span id="slide-title-display">Титульний слайд</span>
+    </div>
+
+    <div class="header-right">
+      <div class="keyboard-hint" title="Використовуйте стрілки ← та → на клавіатурі">
+        <span class="key">←</span> <span class="key">→</span> <span class="key">Space</span>
+      </div>
+      <div class="slide-counter">
+        <span id="current-slide-num">1</span> / <span id="total-slides-num">14</span>
+      </div>
+      <button class="menu-toggle-btn" id="menu-toggle" aria-label="Відкрити меню слайдів">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Прогрес-бар презентації -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Висувне швидке меню слайдів (Sidebar) -->
+  <aside class="sidebar-menu" id="sidebar-menu">
+    <div class="sidebar-header">
+      <h3>Зміст доповіді</h3>
+      <button class="close-menu-btn" id="menu-close">&times;</button>
+    </div>
+    <ul class="slide-list" id="slide-list-links">
+      <!-- Заповнюється динамічно через JS -->
+    </ul>
+  </aside>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Головний контейнер слайд-шоу -->
+  <main id="presentation" class="presentation-container">
+
+    <!-- СЛАЙД 1: Титульний -->
+    <section class="slide active" data-title="Титульний слайд">
+      <div class="slide-content hero-slide">
+        <div class="hero-bg-network"></div>
+        <div class="hero-card">
+          <div class="badge">
+            <span class="material-symbols-outlined">network_node</span>
+            <span>Теорія графів та маршрутизація</span>
+          </div>
+          <h1 class="hero-title">Алгоритми Дейкстри та Беллмана-Форда</h1>
+          <p class="hero-subtitle">Інтерактивна презентація алгоритмів пошуку найкоротшого шляху</p>
+          
+          <div class="authors-box">
+            <div class="author-item">
+              <span class="material-symbols-outlined">person</span>
+              <span>Презентація для захисту лабораторних та курсових робіт</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large next-slide-btn">
+              <span>Розпочати доповідь</span>
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 2: Проблема (Як навігатор бачить граф) -->
+    <section class="slide" data-title="Проблематика">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">map</span> Постановка задачі</h2>
+        <div class="problem-layout">
+          <div class="problem-left">
+            <p class="lead-text">
+              Маючи зважений граф (орієнтований або неорієнтований) та вихідну вершину-джерело, необхідно знайти найкоротші шляхи від неї до всіх інших вершин графа. Це задача <strong>SSSP (Single Source Shortest Path)</strong>.
+            </p>
+            <div class="analogy-card mt-3">
+              <span class="analogy-icon material-symbols-outlined">navigation</span>
+              <div class="analogy-text">
+                <h4>Аналогія з картами (Google Maps, Uber)</h4>
+                <p>Навігатор уявляє місто як складну мережу: перехрестя є <strong>вершинами</strong>, а дороги між ними — <strong>ребрами</strong>. Вага кожного ребра визначається відстанню, станом покриття та поточними заторами.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="problem-right">
+            <div class="card">
+              <h3>Анатомія графа в навігації</h3>
+              <ul class="elements-list mt-3">
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">location_on</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Вершини (Nodes)</h4>
+                    <p>Перехрестя, міста, адреси відправлення та прибуття.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">trending_flat</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Ребра (Edges)</h4>
+                    <p>Дороги, вулиці, магістралі. Мають напрямок (односторонній рух).</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="element-badge-icon">
+                    <span class="material-symbols-outlined">timer</span>
+                  </div>
+                  <div class="element-content">
+                    <h4>Вага (Weights)</h4>
+                    <p>Вартість проїзду: час у дорозі, кілометраж або витрати пального.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 3: Дейкстра: Ідея -->
+    <section class="slide" data-title="Дейкстра: Ідея">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">emoji_objects</span> Алгоритм Дейкстри: Концепція</h2>
+        <div class="concept-layout">
+          <div class="author-portrait-card">
+            <div class="portrait-photo-circle">
+              <img src="img/Дейкстра фото.png" alt="Едсгер Дейкстра">
+            </div>
+            <h3 class="author-name">Едсгер Дейкстра</h3>
+            <span class="author-years">(1930 – 2002)</span>
+            <span class="author-tag">Нідерланди</span>
+          </div>
+
+          <div class="bio-card">
+            <div class="card">
+              <h4>Філософія "Егоїста"</h4>
+              <p class="lead-text" style="font-size:1.05rem;">
+                Це <strong>жадібний алгоритм (Greedy)</strong>. На кожному кроці він обирає найближчу ще не відвідану вершину, фіксує шлях до неї як остаточний та проводить <strong>релаксацію</strong> її сусідів. Він «спалює мости» заради миттєвої вигоди.
+              </p>
+            </div>
+            <div class="card warning-card">
+              <h4>⚠️ Головне обмеження</h4>
+              <p>Алгоритм Дейкстри коректно працює <strong>тільки для графів без ребер з від'ємними вагами</strong>: w(u, v) &ge; 0.</p>
+              <p class="mt-2" style="font-size:0.9rem; opacity:0.8;">Якщо в графі є від'ємні ваги, жадібний вибір фіксує оцінку шляху передчасно, позбавляючи можливості знайти дешевший обхідний шлях пізніше.</p>
+            </div>
+
+            <div class="expandable-bio">
+              <span class="expandable-bio-title" onclick="toggleBio(this)">
+                <span class="material-symbols-outlined">info</span>
+                Історія створення (20 хвилин)
+                <span class="material-symbols-outlined">expand_more</span>
+              </span>
+              <div class="expandable-bio-text">
+                <div class="expandable-bio-inner">
+                  Дейкстра вигадав цей алгоритм у 1956 році під час кавування на терасі кафе зі своєю нареченою. Йому потрібно було продемонструвати можливості нового комп'ютера ARMAC. Він обрав задачу пошуку найкоротшого шляху на дорожній карті Нідерландів від Роттердама до Гронінгена і розв'язав її у своїй голові за 20 хвилин без використання паперу та олівця.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 4: Псевдокод Дейкстри -->
+    <section class="slide" data-title="Дейкстра: Псевдокод">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">code</span> Псевдокод алгоритму Дейкстри</h2>
+        <div class="grid-2-col-narrow-left">
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="code-title">dijkstra(G, start)</span>
+              <button class="btn-copy-code" onclick="copyCode(this, 'dijkstra-pseudo')">
+                <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                Копіювати
+              </button>
+            </div>
+            <pre><code id="dijkstra-pseudo">   <span class="t-keyword">function</span> Dijkstra(Graph, source):
+    
+       <span class="t-keyword">for each</span> vertex v <span class="t-keyword">in</span> Graph.Vertices:
+           dist[v] &larr; <span class="t-number">INFINITY</span>
+           prev[v] &larr; <span class="t-number">UNDEFINED</span>
+           add v <span class="t-keyword">to</span> Q
+      dist[source] &larr; <span class="t-number">0</span>
+     
+       <span class="t-keyword">while</span> Q <span class="t-keyword">is not</span> empty:
+          u &larr; vertex <span class="t-keyword">in</span> Q <span class="t-keyword">with</span> minimum dist[u]
+          Q.remove(u)
+         
+          <span class="t-keyword">for each</span> edge (u, v) <span class="t-keyword">in</span> Graph:
+              alt &larr; dist[u] + Graph.Distance(u,v)
+              <span class="t-keyword">if</span> alt &lt; dist[v]:
+                  dist[v] &larr; alt
+                  prev[v] &larr; u
+
+      <span class="t-keyword">return</span> dist[], prev[]</code></pre>
+          </div>
+
+          <div class="flex-col" style="gap:16px;">
+            <div class="card">
+              <h3>Складність алгоритму</h3>
+              <div class="complexity-grid mt-2">
+                <div class="complexity-pill">
+                  <span class="comp-lbl">З масивом:</span>
+                  <span class="comp-val">O(V<sup>2</sup>)</span>
+                </div>
+                <div class="complexity-pill highlight">
+                  <span class="comp-lbl">З двійковою купою:</span>
+                  <span class="comp-val">O(E log V)</span>
+                </div>
+                <div class="complexity-pill">
+                  <span class="comp-lbl">З купою Фібоначчі:</span>
+                  <span class="comp-val">O(E + V log V)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card flex-grow">
+              <h3>Кроки виконання:</h3>
+              <ul class="steps-check-list mt-2">
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Ініціалізація стартової відстані в <strong>0</strong>, решти — в <strong>нескінченність</strong>.</span>
+                </li>
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Вилучення з черги пріоритетів вершини з мінімальною дистанцією.</span>
+                </li>
+                <li>
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <span>Релаксація суміжних ребер для зменшення поточної вартості сусідніх вершин.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 5: Блок-схема Дейкстри -->
+    <section class="slide" data-title="Дейкстра: Блок-схема">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">schema</span> Блок-схема алгоритму Дейкстри</h2>
+        <div class="flowchart-container" id="flowchart-container-s5">
+          <div class="flowchart-viewport">
+            <img src="svg/Блок%20схема%20алгоритму%20Дейкстра.svg" alt="Блок-схема Дейкстри" class="flowchart-img" id="flowchart-img-s5" onerror="showFlowchartFallback(this)">
+            <div class="flowchart-fallback" style="display:none;">
+              <span class="material-symbols-outlined flowchart-fallback-icon">image_not_supported</span>
+              <h3>Файл dijkstra-flowchart.svg не знайдено</h3>
+              <p>Будь ласка, помістіть файл dijkstra-flowchart.svg у робочий каталог.</p>
+            </div>
+          </div>
+          <div class="flowchart-controls">
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s5', 1.2)" title="Збільшити"><span class="material-symbols-outlined">zoom_in</span></button>
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s5', 0.8)" title="Зменшити"><span class="material-symbols-outlined">zoom_out</span></button>
+            <button class="flowchart-btn-tool" onclick="resetFlowchart('s5')" title="Скинути"><span class="material-symbols-outlined">restart_alt</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 6: Інтерактивна візуалізація Дейкстри -->
+    <section class="slide" data-title="Дейкстра: Візуалізація">
+      <div class="slide-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 class="slide-heading compact"><span class="material-symbols-outlined">play_circle</span> Симуляція роботи Дейкстри</h2>
+          <div class="preset-selector-box">
+            <label for="presets-select-s6">Оберіть пресет:</label>
+            <select id="presets-select-s6" class="select-styled">
+              <option value="simple">Стандартний граф</option>
+              <option value="ukraine">Карта міст (затор)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="demo-layout">
+          <div class="demo-sidebar">
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">construction</span>
+                <span>Редактор графа</span>
+              </div>
+              <div class="toolbar-grid">
+                <button class="btn-tool active" id="tool-drag-s6">
+                  <span class="material-symbols-outlined">open_with</span>
+                  Перетягнути
+                </button>
+                <button class="btn-tool" id="tool-node-s6">
+                  <span class="material-symbols-outlined">add_circle</span>
+                  + Вузол
+                </button>
+                <button class="btn-tool" id="tool-edge-s6">
+                  <span class="material-symbols-outlined">trending_flat</span>
+                  + Ребро
+                </button>
+                <button class="btn-tool danger" id="tool-delete-s6">
+                  <span class="material-symbols-outlined">delete</span>
+                  Видалити
+                </button>
+              </div>
+            </div>
+
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">settings_slow_motion</span>
+                <span>Симуляція (Джерело: <span class="accent-text" id="demo-start-node-s6">A</span>)</span>
+              </div>
+              <div class="algo-controls-grid">
+                <button class="btn btn-secondary btn-control" id="btn-demo-prev-s6" disabled>◀ Крок</button>
+                <button class="btn btn-secondary btn-control" id="btn-demo-next-s6">Крок ▶</button>
+              </div>
+              <div style="margin-top:8px;">
+                <button class="btn btn-primary" id="btn-demo-play-s6" style="width:100%;">
+                  <span class="material-symbols-outlined">play_arrow</span>
+                  <span>Запустити симуляцію</span>
+                </button>
+              </div>
+              <div class="speed-slider">
+                <label for="speed-range-s6">Швидкість:</label>
+                <input type="range" id="speed-range-s6" min="150" max="2000" value="800" step="50">
+              </div>
+            </div>
+
+            <div class="demo-state-panel">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">list_alt</span>
+                <span>Стан виконання</span>
+              </div>
+              
+              <div style="margin-bottom:8px;">
+                <span style="font-size:0.75rem; font-weight:700; color:var(--md-sys-color-outline);">Черга Q:</span>
+                <div class="demo-queue" id="demo-queue-list-s6"></div>
+              </div>
+
+              <div class="demo-table-wrapper">
+                <table class="demo-table" id="demo-state-table-s6">
+                  <thead>
+                    <tr>
+                      <th>Вузол</th>
+                      <th>d[v]</th>
+                      <th>Попередник</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="demo-log-alert" id="demo-status-log-s6">
+                Натисніть "Крок" або "Запустити" для перегляду кроків алгоритму.
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <div class="canvas-header">
+              <span id="canvas-mode-indicator-s6">Режим: Перетягування вузлів</span>
+              <div class="canvas-toolbar-overlay">
+                <button class="canvas-action-btn" id="btn-demo-set-start-s6">Старт 📍</button>
+                <button class="canvas-action-btn" id="btn-demo-clear-s6">Очистити</button>
+                <button class="canvas-action-btn" id="btn-demo-reset-s6">Скинути</button>
+              </div>
+            </div>
+            <canvas id="canvas-interactive-s6" class="canvas-element" width="800" height="500"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 7: Практика (С++ Дейкстра) -->
+    <section class="slide" data-title="Дейкстра: Практика">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">terminal</span> Практична реалізація Дейкстри</h2>
+        
+        <div class="compiler-tabs-container" id="cpp-tabs-s7">
+          <div class="compiler-tabs-header">
+            <button class="compiler-tab-btn active" data-tab="tab-code-s7">
+              <span class="material-symbols-outlined">terminal</span>
+              Показати код
+            </button>
+            <button class="compiler-tab-btn" data-tab="tab-compiler-s7">
+              <span class="material-symbols-outlined">open_in_browser</span>
+              Відкрити компілятор
+            </button>
+          </div>
+
+          <!-- Вкладка Коду -->
+          <div class="compiler-tab-panel active" id="tab-code-s7">
+            <div class="code-window" style="flex-grow:1;">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="code-title">dijkstra_opt.cpp</span>
+                <button class="btn-copy-code" onclick="copyCode(this, 'cpp-dijkstra-code-text')">
+                  <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                  Копіювати
+                </button>
+              </div>
+              <pre><code id="cpp-dijkstra-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
+
+<span class="t-keyword">using namespace</span> std;
+
+<span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// Нескінченність</span>
+
+<span class="t-keyword">void</span> Dijkstra(<span class="t-keyword">int</span> vertices, <span class="t-keyword">int</span> source, <span class="t-keyword">const</span> vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt;&amp; graph) {
+    <span class="t-comment">// Ініціалізація (рядки 3-7 псевдокоду)</span>
+    vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+    vector&lt;<span class="t-keyword">bool</span>&gt; visited(vertices, <span class="t-keyword">false</span>); <span class="t-comment">// Виступає в ролі перевірки наявності в черзі Q</span>
+    
+    dist[source] = <span class="t-number">0</span>;
+
+    <span class="t-comment">// Головний цикл (рядки 9-17)</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        <span class="t-comment">// Знаходимо невідвідану вершину з найменшою відстанню (рядок 10)</span>
+        <span class="t-keyword">int</span> u = -<span class="t-number">1</span>;
+        <span class="t-keyword">for</span> (<span class="t-keyword">int</span> j = <span class="t-number">0</span>; j &lt; vertices; j++) {
+            <span class="t-keyword">if</span> (!visited[j] && (u == -<span class="t-number">1</span> || dist[j] &lt; dist[u])) {
+                u = j;
+            }
+        }
+
+        <span class="t-comment">// Якщо найближча вершина недосяжна, перериваємо (запобіжник)</span>
+        <span class="t-keyword">if</span> (dist[u] == INF) <span class="t-keyword">break</span>; 
+
+        <span class="t-comment">// Видаляємо вершину з черги невідвіданих (рядок 11)</span>
+        visited[u] = <span class="t-keyword">true</span>;
+
+        <span class="t-comment">// Перевіряємо всіх сусідів обраної вершини (рядок 13)</span>
+        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : graph[u]) {
+            <span class="t-keyword">int</span> v = edge.first;     <span class="t-comment">// сусід</span>
+            <span class="t-keyword">int</span> weight = edge.second; <span class="t-comment">// вага дороги до сусіда</span>
+
+            <span class="t-comment">// Якщо знайшли коротший шлях — оновлюємо (рядки 14-17)</span>
+            <span class="t-keyword">if</span> (dist[u] + weight &lt; dist[v]) {
+                dist[v] = dist[u] + weight;
+            }
+        }
+    }
+
+    <span class="t-comment">// Відладка: вивід результату</span>
+    cout &lt;&lt; <span class="t-string">"Дейкстра: Найкоротші шляхи від вершини "</span> &lt;&lt; source &lt;&lt; <span class="t-string">":\n"</span>;
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        cout &lt;&lt; <span class="t-string">"До вершини "</span> &lt;&lt; i &lt;&lt; <span class="t-string">" відстань: "</span> &lt;&lt; dist[i] &lt;&lt; <span class="t-string">"\n"</span>;
+    }
+}
+
+<span class="t-keyword">int</span> main() {
+    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; <span class="t-comment">// Кількість вершин</span>
+    
+    <span class="t-comment">// Створюємо граф у вигляді списку суміжності: гра[звідки] = {куди, вага}</span>
+    vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt; graph(V);
+    graph[<span class="t-number">0</span>].push_back({<span class="t-number">1</span>, <span class="t-number">10</span>});
+    graph[<span class="t-number">0</span>].push_back({<span class="t-number">4</span>, <span class="t-number">5</span>});
+    graph[<span class="t-number">1</span>].push_back({<span class="t-number">2</span>, <span class="t-number">1</span>});
+    graph[<span class="t-number">1</span>].push_back({<span class="t-number">4</span>, <span class="t-number">2</span>});
+    graph[<span class="t-number">2</span>].push_back({<span class="t-number">3</span>, <span class="t-number">4</span>});
+    graph[<span class="t-number">3</span>].push_back({<span class="t-number">2</span>, <span class="t-number">6</span>});
+    graph[<span class="t-number">3</span>].push_back({<span class="t-number">0</span>, <span class="t-number">7</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">1</span>, <span class="t-number">3</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">2</span>, <span class="t-number">9</span>});
+    graph[<span class="t-number">4</span>].push_back({<span class="t-number">3</span>, <span class="t-number">2</span>});
+
+    Dijkstra(V, <span class="t-number">0</span>, graph);
+    <span class="t-keyword">return</span> <span class="t-number">0</span>;
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Вкладка Компілятора (На весь екран) -->
+          <div class="compiler-tab-panel" id="tab-compiler-s7">
+            <div class="fullscreen-compiler-wrapper">
+              <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 8: Беллман-Форд: Ідея -->
+    <section class="slide" data-title="Беллман-Форд: Ідея">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">insights</span> Алгоритм Беллмана-Форда: Концепція</h2>
+        <div class="concept-layout">
+          <div class="author-portrait-card">
+            <div class="author-duo-portraits">
+              <div class="author-single-duo">
+                <div class="portrait-photo-circle">
+                  <img src="img/Беллман фото.png" alt="Річард Беллман">
+                </div>
+                <h3 class="author-name">Р. Беллман</h3>
+              </div>
+              <div class="author-single-duo">
+                <div class="portrait-photo-circle">
+                  <img src="img/Форд фото.png" alt="Лестер Форд">
+                </div>
+                <h3 class="author-name">Л. Форд</h3>
+              </div>
+            </div>
+            <span class="author-tag">США (1956 - 1958)</span>
+          </div>
+
+          <div class="bio-card">
+            <div class="card">
+              <h4>Філософія "Параноїка"</h4>
+              <p class="lead-text" style="font-size:1.05rem;">
+                Базується на ідеї <strong>динамічного програмування</strong>. Він діє обережно та методично. Замість вибору найкоротшого ребра він робить <strong>V - 1 повних проходів</strong> по всіх ребрах графа, оновлюючи відстані. Він нікому не довіряє наперед.
+              </p>
+            </div>
+            <div class="card success-card" style="background-color: rgba(52, 211, 153, 0.05); border-left: 5px solid var(--md-sys-color-primary); border-color: rgba(52, 211, 153, 0.25);">
+              <h4 style="color:var(--md-sys-color-primary);">✔️ Переваги підходу</h4>
+              <p>На відміну від Дейкстри, Беллман-Форд <strong>легко працює з негативними вагами</strong> та вміє детектувати небезпечні від'ємні цикли.</p>
+            </div>
+
+            <div class="expandable-bio">
+              <span class="expandable-bio-title" onclick="toggleBio(this)">
+                <span class="material-symbols-outlined">info</span>
+                Звідки взявся цей метод?
+                <span class="material-symbols-outlined">expand_more</span>
+              </span>
+              <div class="expandable-bio-text">
+                <div class="expandable-bio-inner">
+                  Річард Беллман сформулював концепцію динамічного програмування у RAND Corporation. Йому довелося вигадати таку незвичну назву, щоб приховати від міністра оборони США, який не любив математику, теоретичний характер досліджень. Слово «програмування» тоді означало просто планування, а «динамічний» звучало прогресивно. Лестер Форд доповнив систему ідеєю покрокової релаксації.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 9: Псевдокод Беллмана-Форда -->
+    <section class="slide" data-title="Беллман-Форд: Псевдокод">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">code</span> Псевдокод алгоритму Беллмана-Форда</h2>
+        <div class="grid-2-col-narrow-left">
+          <div class="code-window">
+            <div class="code-header">
+              <div class="code-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="code-title">bellman_ford(G, start)</span>
+              <button class="btn-copy-code" onclick="copyCode(this, 'bf-pseudo')">
+                <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                Копіювати
+              </button>
+            </div>
+            <pre><code id="bf-pseudo"> <span class="t-comment">// Ініціалізація</span>
+ <span class="t-keyword">для кожної</span> вершини v &isin; G.V
+     v.d = &infin;
+     v.&pi; = NIL
+ s.d = <span class="t-number">0</span> // Основна частина
+ <span class="t-keyword">для</span> i = <span class="t-number">1</span> <span class="t-keyword">до</span> |G.V| - <span class="t-number">1</span>
+     <span class="t-keyword">для кожного</span> ребра (u, v) &isin; G.E
+         <span class="t-keyword">якщо</span> v.d &gt; u.d + w(u, v)
+             v.d = u.d + w(u, v)
+             v.&pi; = u <span class="t-comment">// зберігаємо попередню вершину</span>
+ <span class="t-comment">// Перевірка на наявність циклів з від'ємною вагою</span>
+ <span class="t-keyword">для кожного</span> ребра (u, v) &isin; G.E
+     <span class="t-keyword">якщо</span> v.d &gt; u.d + w(u, v)
+         <span class="t-keyword">повернути</span> ХИБА
+ <span class="t-keyword">повернути</span> ІСТИНА</code></pre>
+          </div>
+
+          <div class="flex-col" style="gap:16px;">
+            <div class="card">
+              <h3>Складність алгоритму</h3>
+              <div class="complexity-grid mt-2">
+                <div class="complexity-pill highlight">
+                  <span class="comp-lbl">Часова складність:</span>
+                  <span class="comp-val">O(V &middot; E)</span>
+                </div>
+                <div class="complexity-pill">
+                  <span class="comp-lbl">Просторова складність:</span>
+                  <span class="comp-val">O(V)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card flex-grow">
+              <h3>Принцип V-1 кроків:</h3>
+              <p style="font-size:0.9rem; color:var(--md-sys-color-on-surface-variant); line-height:1.5;">
+                Будь-який найкоротший простій шлях містить не більше <strong>V - 1 ребер</strong>. Якщо після V - 1 ітерацій ми знову можемо релаксувати хоч одне ребро — граф містить <strong>від'ємний цикл</strong>. Шлях через такий цикл дорівнюватиме мінус нескінченності.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 10: Блок-схема Беллмана-Форда -->
+    <section class="slide" data-title="Беллман-Форд: Блок-схема">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">schema</span> Блок-схема алгоритму Беллмана-Форда</h2>
+        <div class="flowchart-container" id="flowchart-container-s10">
+          <div class="flowchart-viewport">
+            <img src="svg/Блок%20схема%20алгоритму%20Беллмана%20-%20Форда.svg" alt="Блок-схема Беллмана-Форда" class="flowchart-img" id="flowchart-img-s10" onerror="showFlowchartFallback(this)">
+            <div class="flowchart-fallback" style="display:none;">
+              <span class="material-symbols-outlined flowchart-fallback-icon">image_not_supported</span>
+              <h3>Файл bellman-ford-flowchart.svg не знайдено</h3>
+              <p>Будь ласка, помістіть файл bellman-ford-flowchart.svg у робочий каталог.</p>
+            </div>
+          </div>
+          <div class="flowchart-controls">
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s10', 1.2)" title="Збільшити"><span class="material-symbols-outlined">zoom_in</span></button>
+            <button class="flowchart-btn-tool" onclick="zoomFlowchart('s10', 0.8)" title="Зменшити"><span class="material-symbols-outlined">zoom_out</span></button>
+            <button class="flowchart-btn-tool" onclick="resetFlowchart('s10')" title="Скинути"><span class="material-symbols-outlined">restart_alt</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 11: Візуалізація / Проблема Дейкстри -->
+    <section class="slide" data-title="BF: Візуалізація">
+      <div class="slide-content">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h2 class="slide-heading compact"><span class="material-symbols-outlined">report_problem</span> Робота з від'ємними вагами (Збій Дейкстри)</h2>
+          <div class="preset-selector-box">
+            <label for="presets-select-s11">Оберіть пресет:</label>
+            <select id="presets-select-s11" class="select-styled">
+              <option value="negative">Негативні ваги (без циклу)</option>
+              <option value="neg-cycle">Негативний цикл</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="demo-layout">
+          <div class="demo-sidebar">
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">menu_open</span>
+                <span>Оберіть алгоритм</span>
+              </div>
+              <div class="algo-selection-box">
+                <label class="algo-radio selected" id="lbl-algo-dijkstra-s11">
+                  <input type="radio" name="select-algorithm-s11" value="dijkstra" checked>
+                  Дейкстра (дасть збій)
+                </label>
+                <label class="algo-radio" id="lbl-algo-bf-s11">
+                  <input type="radio" name="select-algorithm-s11" value="bellmanford">
+                  Беллман-Форд (коректно)
+                </label>
+              </div>
+            </div>
+
+            <div class="demo-controls-group">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">settings_slow_motion</span>
+                <span>Симуляція (Джерело: <span class="accent-text" id="demo-start-node-s11">S</span>)</span>
+              </div>
+              <div class="algo-controls-grid">
+                <button class="btn btn-secondary btn-control" id="btn-demo-prev-s11" disabled>◀ Крок</button>
+                <button class="btn btn-secondary btn-control" id="btn-demo-next-s11">Крок ▶</button>
+              </div>
+              <div style="margin-top:8px;">
+                <button class="btn btn-primary" id="btn-demo-play-s11" style="width:100%;">
+                  <span class="material-symbols-outlined">play_arrow</span>
+                  <span>Запустити симуляцію</span>
+                </button>
+              </div>
+              <div class="speed-slider">
+                <label for="speed-range-s11">Швидкість:</label>
+                <input type="range" id="speed-range-s11" min="150" max="2000" value="800" step="50">
+              </div>
+            </div>
+
+            <div class="demo-state-panel">
+              <div class="demo-section-title">
+                <span class="material-symbols-outlined">analytics</span>
+                <span>Стан виконання</span>
+              </div>
+              
+              <div id="bf-details-box-s11" style="display:none; font-size:0.8rem; font-weight:600; margin-bottom:6px; color:var(--md-sys-color-primary);">
+                Ітерація: <span id="bf-pass-indicator-s11">0 / V-1</span> | Ребро: <span id="bf-edge-indicator-s11">-</span>
+              </div>
+
+              <div id="dijkstra-queue-box-s11">
+                <span style="font-size:0.75rem; font-weight:700; color:var(--md-sys-color-outline);">Черга Q:</span>
+                <div class="demo-queue" id="demo-queue-list-s11"></div>
+              </div>
+
+              <div class="demo-table-wrapper">
+                <table class="demo-table" id="demo-state-table-s11">
+                  <thead>
+                    <tr>
+                      <th>Вузол</th>
+                      <th>d[v]</th>
+                      <th>Попередник</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="demo-log-alert" id="demo-status-log-s11">
+                Запустіть алгоритм, щоб порівняти роботу Дейкстри та Беллмана-Форда.
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <div class="canvas-header">
+              <span id="canvas-mode-indicator-s11">Порівняння алгоритмів на графах із від'ємними вагами</span>
+              <div class="canvas-toolbar-overlay">
+                <button class="canvas-action-btn" id="btn-demo-set-start-s11">Старт 📍</button>
+                <button class="canvas-action-btn" id="btn-demo-clear-s11">Очистити</button>
+                <button class="canvas-action-btn" id="btn-demo-reset-s11">Скинути</button>
+              </div>
+            </div>
+            <canvas id="canvas-interactive-s11" class="canvas-element" width="800" height="500"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 12: Практика (С++ Беллман-Форд) -->
+    <section class="slide" data-title="Беллман-Форд: Практика">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">terminal</span> Практична реалізація Беллмана-Форда</h2>
+        
+        <div class="compiler-tabs-container" id="cpp-tabs-s12">
+          <div class="compiler-tabs-header">
+            <button class="compiler-tab-btn active" data-tab="tab-code-s12">
+              <span class="material-symbols-outlined">terminal</span>
+              Показати код
+            </button>
+            <button class="compiler-tab-btn" data-tab="tab-compiler-s12">
+              <span class="material-symbols-outlined">open_in_browser</span>
+              Відкрити компілятор
+            </button>
+          </div>
+
+          <!-- Вкладка Коду -->
+          <div class="compiler-tab-panel active" id="tab-code-s12">
+            <div class="code-window" style="flex-grow:1;">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="code-title">bellman_ford.cpp</span>
+                <button class="btn-copy-code" onclick="copyCode(this, 'cpp-bf-code-text')">
+                  <span class="material-symbols-outlined" style="font-size:1rem;">content_copy</span>
+                  Копіювати
+                </button>
+              </div>
+              <pre><code id="cpp-bf-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
+
+<span class="t-keyword">using namespace</span> std;
+
+<span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// Встановлюємо значення нескінченності</span>
+
+<span class="t-comment">// Структура для зберігання ребра (звідки, куди, вага)</span>
+<span class="t-struct">struct</span> Edge {
+    <span class="t-keyword">int</span> u, v, weight;
+};
+
+<span class="t-keyword">void</span> BellmanFord(<span class="t-keyword">int</span> vertices, <span class="t-keyword">int</span> source, <span class="t-keyword">const</span> vector&lt;Edge&gt;&amp; edges) {
+    <span class="t-comment">// 1. Ініціалізація: всі відстані = &infin;, крім початкової</span>
+    vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+    dist[source] = <span class="t-number">0</span>;
+
+    <span class="t-comment">// 2. Основна частина: розслаблення всіх ребер (V - 1) разів</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">1</span>; i &lt;= vertices - <span class="t-number">1</span>; i++) {
+        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+            <span class="t-comment">// Якщо шлях до u відомий і через u до v ближче, ніж напряму:</span>
+            <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+                dist[edge.v] = dist[edge.u] + edge.weight; <span class="t-comment">// Оновлюємо відстань</span>
+            }
+        }
+    }
+
+    <span class="t-comment">// 3. Перевірка на наявність циклів з від'ємною вагою</span>
+    <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+        <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+            cout &lt;&lt; <span class="t-string">"Помилка: У графі є цикл з від'ємною вагою!"</span> &lt;&lt; endl;
+            <span class="t-keyword">return</span>; <span class="t-comment">// ХИБА</span>
+        }
+    }
+
+    <span class="t-comment">// Відладка: вивід результату (ІСТИНА)</span>
+    cout &lt;&lt; <span class="t-string">"Беллман-Форд: Найкоротші шляхи від вершини "</span> &lt;&lt; source &lt;&lt; <span class="t-string">":\n"</span>;
+    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        cout &lt;&lt; <span class="t-string">"До вершини "</span> &lt;&lt; i &lt;&lt; <span class="t-string">" відстань: "</span> &lt;&lt; dist[i] &lt;&lt; <span class="t-string">"\n"</span>;
+    }
+}
+
+<span class="t-keyword">int</span> main() {
+    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; <span class="t-comment">// Кількість вершин</span>
+    vector&lt;Edge&gt; edges = {
+        {<span class="t-number">0</span>, <span class="t-number">1</span>, <span class="t-number">6</span>}, {<span class="t-number">0</span>, <span class="t-number">3</span>, <span class="t-number">7</span>}, {<span class="t-number">1</span>, <span class="t-number">2</span>, <span class="t-number">5</span>}, 
+        {<span class="t-number">1</span>, <span class="t-number">3</span>, <span class="t-number">8</span>}, {<span class="t-number">1</span>, <span class="t-number">4</span>, -<span class="t-number">4</span>}, {<span class="t-number">2</span>, <span class="t-number">1</span>, -<span class="t-number">2</span>}, 
+        {<span class="t-number">3</span>, <span class="t-number">2</span>, -<span class="t-number">3</span>}, {<span class="t-number">3</span>, <span class="t-number">4</span>, <span class="t-number">9</span>}, {<span class="t-number">4</span>, <span class="t-number">0</span>, <span class="t-number">2</span>}, {<span class="t-number">4</span>, <span class="t-number">2</span>, <span class="t-number">7</span>}
+    };
+
+    BellmanFord(V, <span class="t-number">0</span>, edges);
+    <span class="t-keyword">return</span> <span class="t-number">0</span>;
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- Вкладка Компілятора (На весь екран) -->
+          <div class="compiler-tab-panel" id="tab-compiler-s12">
+            <div class="fullscreen-compiler-wrapper">
+              <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 13: Порівняння та Застосування -->
+    <section class="slide" data-title="Порівняння та Застосування">
+      <div class="slide-content">
+        <h2 class="slide-heading"><span class="material-symbols-outlined">balance</span> Порівняння алгоритмів та сфера застосування</h2>
+        
+        <div class="comparison-layout">
+          <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Параметри</th>
+                  <th>Алгоритм Дейкстри</th>
+                  <th>Алгоритм Беллмана-Форда</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Клас алгоритму</strong></td>
+                  <td>Жадібний (Greedy)</td>
+                  <td>Динамічне програмування</td>
+                </tr>
+                <tr>
+                  <td><strong>Складність у черзі</strong></td>
+                  <td><span class="better-stat">O(E log V)</span></td>
+                  <td><span class="worse-stat">O(V &middot; E)</span> (повільніший)</td>
+                </tr>
+                <tr>
+                  <td><strong>Ребра w(u, v) &lt; 0</strong></td>
+                  <td><span class="worse-stat">Збій</span></td>
+                  <td><span class="better-stat">Працює коректно</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Цикли від'ємної ваги</strong></td>
+                  <td><span class="worse-stat">Не бачить</span></td>
+                  <td><span class="better-stat">Визначає (V-й крок)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Маршрутизація</strong></td>
+                  <td>OSPF (Link-State)</td>
+                  <td>RIP (Distance-Vector)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="apps-grid">
+            <div class="card">
+              <h3>🗺️ GPS-карти (Google Maps, Uber)</h3>
+              <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height:1.6;">
+                На звичайній дорожній карті немає доріг із від'ємним часом чи відстанню (неможливо приїхати в місто раніше, ніж ви виїхали). Тому логістичні сервіси використовують модифікації швидкодіючого <strong>Дейкстри (алгоритм A* та Road Hierarchies)</strong>.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>🌐 Мережа Інтернет та роутери</h3>
+              <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height:1.6;">
+                У комп'ютерних мережах протокол <strong>OSPF</strong> використовує Дейкстру для локальної карти кожного роутера. Протокол <strong>RIP</strong> використовує Беллмана-Форда для обміну векторами відстаней між сусідами без знання повної топології.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- СЛАЙД 14: Фінал -->
+    <section class="slide" data-title="Фінал">
+      <div class="slide-content hero-slide">
+        <div class="hero-card">
+          <div class="badge">
+            <span class="material-symbols-outlined">workspace_premium</span>
+            <span>Завершення презентації</span>
+          </div>
+          <h1 class="hero-title large">Дякую за увагу!</h1>
+          <p class="hero-subtitle" style="margin-bottom:24px;">Готовий вислухати ваші запитання та коментарі.</p>
+          
+          <div class="card" style="background-color:var(--md-sys-color-surface-container-high); border:1px solid var(--md-sys-color-outline-variant); margin-top:24px; padding:16px;">
+            <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant);">
+              Презентація створена з використанням інтерактивного Canvas рушія, Google Material 3 Dark UI, та C++ пісочниці OneCompiler.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Панель керування презентацією знизу (Footer) -->
+  <footer class="app-footer">
+    <button class="btn btn-control btn-secondary" id="control-prev" aria-label="Попередній слайд">
+      <span class="material-symbols-outlined">arrow_back</span>
+      <span>Назад</span>
+    </button>
+
+    <div class="presentation-dots" id="presentation-dots">
+      <!-- Створюватиметься динамічно в JS -->
+    </div>
+
+    <button class="btn btn-control btn-primary" id="control-next" aria-label="Наступний слайд">
+      <span>Далі</span>
+      <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Проста функція копіювання коду з безпечним отриманням кнопки-тригера
+    function copyCode(btn, elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        if (btn) {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = `<span class="material-symbols-outlined" style="font-size:1rem;">check</span> Скопійовано!`;
+          btn.style.backgroundColor = "var(--md-sys-color-primary)";
+          btn.style.color = "var(--md-sys-color-on-primary)";
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.backgroundColor = "";
+            btn.style.color = "";
+          }, 1500);
+        }
+      });
+    }
+
+    // Запобігання ламанню зображень блок-схем
+    function showFlowchartFallback(img) {
+      img.style.display = 'none';
+      const fallback = img.nextElementSibling;
+      if (fallback) fallback.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>
