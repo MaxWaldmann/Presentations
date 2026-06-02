@@ -1,4 +1,4 @@
-﻿// ==========================================================================
+// ==========================================================================
 // 1. НАВІГАЦІЯ ТА КЕРУВАННЯ ПРЕЗЕНТАЦІЄЮ (14 СЛАЙДІВ)
 // ==========================================================================
 
@@ -195,6 +195,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Тема (світла / темна)
+  const themeToggle = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  
+  if (currentTheme === 'light') {
+    document.body.classList.add('light-theme');
+    if (themeToggle) {
+      themeToggle.innerHTML = `<span class="material-symbols-outlined">dark_mode</span>`;
+    }
+  }
+  
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      let theme = 'dark';
+      if (document.body.classList.contains('light-theme')) {
+        theme = 'light';
+        themeToggle.innerHTML = `<span class="material-symbols-outlined">dark_mode</span>`;
+      } else {
+        themeToggle.innerHTML = `<span class="material-symbols-outlined">light_mode</span>`;
+      }
+      localStorage.setItem('theme', theme);
+      
+      // Redraw canvases
+      if (window.visS6) window.visS6.draw();
+      if (window.visS11) window.visS11.draw();
+    });
+  }
+
   // Ініціалізація симуляторів графів
   initSimulators();
   initFlowchartPanAndZoom();
@@ -216,6 +245,34 @@ function toggleBio(element) {
 // ==========================================================================
 // 3. ІНТЕРАКТИВНИЙ РУШІЙ ГРАФІВ (CANVAS)
 // ==========================================================================
+
+// Функція для динамічного отримання кольорів теми для канвасу
+function getThemeColors() {
+  const isLight = document.body.classList.contains('light-theme');
+  if (isLight) {
+    return {
+      grid: '#e2e2e9',
+      nodeFill: '#ffffff',
+      nodeStroke: '#79747e',
+      nodeText: '#1d1b20',
+      nodeLongText: '#5f5e6b',
+      edgeStroke: '#79747e',
+      edgeTextBg: '#f7f2fa',
+      edgeText: '#49454f'
+    };
+  } else {
+    return {
+      grid: '#1d1a24',
+      nodeFill: '#17151e',
+      nodeStroke: '#3a3447',
+      nodeText: '#e6e1e6',
+      nodeLongText: '#b3afc1',
+      edgeStroke: '#3a3447',
+      edgeTextBg: '#17151e',
+      edgeText: '#b3afc1'
+    };
+  }
+}
 
 class GraphVisualizer {
   constructor(canvasId, suffix, defaultPreset = 'simple') {
@@ -596,6 +653,63 @@ class GraphVisualizer {
         { from: 'D', to: 'H', weight: 2, isActive: false, isOptimal: false, isRelaxing: false }
       ];
       this.startNodeId = 'L';
+    } else if (presetType === 'tree') {
+      this.nodes = [
+        { id: 'A', name: 'A', x: 150, y: 250, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'B', name: 'B', x: 320, y: 140, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'C', name: 'C', x: 320, y: 360, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'D', name: 'D', x: 500, y: 80,  dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'E', name: 'E', x: 500, y: 200, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'F', name: 'F', x: 500, y: 300, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'G', name: 'G', x: 500, y: 420, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false }
+      ];
+      this.edges = [
+        { from: 'A', to: 'B', weight: 3, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'A', to: 'C', weight: 5, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'D', weight: 2, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'E', weight: 4, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'C', to: 'F', weight: 1, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'C', to: 'G', weight: 6, isActive: false, isOptimal: false, isRelaxing: false }
+      ];
+      this.startNodeId = 'A';
+    } else if (presetType === 'dense') {
+      this.nodes = [
+        { id: 'A', name: 'A', x: 120, y: 250, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'B', name: 'B', x: 300, y: 130, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'C', name: 'C', x: 300, y: 370, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'D', name: 'D', x: 480, y: 130, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'E', name: 'E', x: 480, y: 370, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'F', name: 'F', x: 660, y: 250, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false }
+      ];
+      this.edges = [
+        { from: 'A', to: 'B', weight: 4, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'A', to: 'C', weight: 2, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'C', weight: 1, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'D', weight: 3, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'C', to: 'E', weight: 5, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'E', weight: 2, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'C', to: 'D', weight: 6, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'D', to: 'E', weight: 1, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'D', to: 'F', weight: 3, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'E', to: 'F', weight: 2, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'A', to: 'D', weight: 10, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'C', to: 'F', weight: 8, isActive: false, isOptimal: false, isRelaxing: false }
+      ];
+      this.startNodeId = 'A';
+    } else if (presetType === 'fail-dijkstra') {
+      this.nodes = [
+        { id: 'S', name: 'S', x: 120, y: 250, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'B', name: 'B', x: 320, y: 360, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'A', name: 'A', x: 320, y: 140, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false },
+        { id: 'C', name: 'C', x: 520, y: 250, dist: Infinity, parent: null, isVisited: false, isActive: false, isProcessing: false }
+      ];
+      this.edges = [
+        { from: 'S', to: 'A', weight: 1, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'S', to: 'B', weight: 3, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'B', to: 'A', weight: -3, isActive: false, isOptimal: false, isRelaxing: false },
+        { from: 'A', to: 'C', weight: 2, isActive: false, isOptimal: false, isRelaxing: false }
+      ];
+      this.startNodeId = 'S';
     }
     
     this.draw();
@@ -610,7 +724,8 @@ class GraphVisualizer {
   }
 
   drawGrid() {
-    this.ctx.strokeStyle = '#1d1a24';
+    const colors = getThemeColors();
+    this.ctx.strokeStyle = colors.grid;
     this.ctx.lineWidth = 1;
     const gridSize = 40;
     
@@ -629,13 +744,15 @@ class GraphVisualizer {
   }
 
   drawNode(node) {
+    const colors = getThemeColors();
     const isStart = node.id === this.startNodeId;
+    const isLight = document.body.classList.contains('light-theme');
     this.ctx.save();
     
-    let fillColor = '#17151e';
-    let strokeColor = '#3a3447';
+    let fillColor = colors.nodeFill;
+    let strokeColor = colors.nodeStroke;
     let lineWidth = 2;
-    let textColor = '#e6e1e6';
+    let textColor = colors.nodeText;
 
     if (node.isVisited) {
       fillColor = 'rgba(52, 211, 153, 0.1)';
@@ -644,7 +761,7 @@ class GraphVisualizer {
     
     if (node.isActive) {
       fillColor = 'rgba(208, 188, 255, 0.1)';
-      strokeColor = '#d0bcff';
+      strokeColor = isLight ? '#6750a4' : '#d0bcff';
       lineWidth = 3;
     }
     
@@ -655,7 +772,7 @@ class GraphVisualizer {
     }
 
     if (isStart) {
-      strokeColor = '#d0bcff';
+      strokeColor = isLight ? '#6750a4' : '#d0bcff';
       lineWidth = 3;
     }
 
@@ -686,7 +803,7 @@ class GraphVisualizer {
 
     if (isLongName) {
       this.ctx.font = 'bold 10px "Outfit"';
-      this.ctx.fillStyle = '#b3afc1';
+      this.ctx.fillStyle = colors.nodeLongText;
       this.ctx.textBaseline = 'top';
       this.ctx.fillText(node.name, node.x, node.y + this.nodeRadius + 4);
     }
@@ -725,19 +842,21 @@ class GraphVisualizer {
   }
 
   drawEdge(edge) {
+    const colors = getThemeColors();
     const fromNode = this.nodes.find(n => n.id === edge.from);
     const toNode = this.nodes.find(n => n.id === edge.to);
+    const isLight = document.body.classList.contains('light-theme');
     
     if (!fromNode || !toNode) return;
     
     this.ctx.save();
     
-    let strokeColor = '#3a3447';
+    let strokeColor = colors.edgeStroke;
     let lineWidth = 2;
     let isDashed = false;
 
     if (edge.isActive) {
-      strokeColor = '#d0bcff';
+      strokeColor = isLight ? '#6750a4' : '#d0bcff';
       lineWidth = 3;
     }
     
@@ -812,12 +931,12 @@ class GraphVisualizer {
       this.ctx.stroke();
       this.ctx.fillStyle = '#f87171';
     } else {
-      this.ctx.fillStyle = '#17151e';
-      this.ctx.strokeStyle = '#3a3447';
+      this.ctx.fillStyle = colors.edgeTextBg;
+      this.ctx.strokeStyle = colors.edgeStroke;
       this.ctx.lineWidth = 1;
       this.ctx.fill();
       this.ctx.stroke();
-      this.ctx.fillStyle = '#b3afc1';
+      this.ctx.fillStyle = colors.edgeText;
     }
     
     this.ctx.textAlign = 'center';
@@ -1158,13 +1277,6 @@ function generateDijkstraTrace(graphNodes, graphEdges, startNodeId) {
     });
 
     if (!minNode || minNode.dist === Infinity) {
-      steps.push({
-        nodes: JSON.parse(JSON.stringify(nodes)),
-        edges: JSON.parse(JSON.stringify(edges)),
-        msg: "Всі досяжні вершини опрацьовані. Алгоритм Дейкстри завершено.",
-        statusType: "success",
-        queue: []
-      });
       break;
     }
 
@@ -1197,6 +1309,14 @@ function generateDijkstraTrace(graphNodes, graphEdges, startNodeId) {
       let msg = `Перевіряємо сусіда ${targetNode.name} через ребро з вагою ${edge.weight}. Новий шлях: ${minNode.dist} + ${edge.weight} = ${alt}.`;
       
       if (isShortest) {
+        // Деактивуємо інші вхідні ребра до targetNode
+        edges.forEach(e => {
+          if (e.to === targetNode.id) {
+            e.isActive = false;
+            e.isOptimal = false;
+          }
+        });
+
         targetNode.dist = alt;
         targetNode.parent = minNode.id;
         edge.isActive = true;
@@ -1256,11 +1376,17 @@ function generateDijkstraTrace(graphNodes, graphEdges, startNodeId) {
     }
   });
 
+  let hasNegativeEdge = graphEdges.some(e => e.weight < 0);
+  let finalMsg = "Роботу алгоритму Дейкстри завершено. Знайдено всі найкоротші шляхи.";
+  if (hasNegativeEdge) {
+    finalMsg = "Роботу алгоритму Дейкстри завершено. Увага: граф містить ребра з від'ємною вагою, тому знайдені відстані можуть бути некоректними.";
+  }
+
   steps.push({
     nodes: JSON.parse(JSON.stringify(nodes)),
     edges: JSON.parse(JSON.stringify(edges)),
-    msg: "Роботу алгоритму Дейкстри завершено. Знайдено всі найкоротші шляхи.",
-    statusType: "success",
+    msg: finalMsg,
+    statusType: hasNegativeEdge ? "warning" : "success",
     queue: []
   });
 
@@ -1297,6 +1423,8 @@ function generateBellmanFordTrace(graphNodes, graphEdges, startNodeId) {
 
   const V = nodes.length;
   let changed = false;
+  let earlyExit = false;
+  let earlyExitIteration = 0;
 
   for (let i = 1; i <= V - 1; i++) {
     changed = false;
@@ -1316,6 +1444,14 @@ function generateBellmanFordTrace(graphNodes, graphEdges, startNodeId) {
       let msg = `Ітерація ${i}/${V-1}. Перевіряємо ребро ${uNode.name}->${vNode.name} з вагою ${edge.weight}.`;
 
       if (uNode.dist !== Infinity && alt < vNode.dist) {
+        // Деактивуємо інші вхідні ребра до vNode
+        edges.forEach(e => {
+          if (e.to === vNode.id) {
+            e.isActive = false;
+            e.isOptimal = false;
+          }
+        });
+
         vNode.dist = alt;
         vNode.parent = uNode.id;
         edge.isActive = true;
@@ -1346,53 +1482,49 @@ function generateBellmanFordTrace(graphNodes, graphEdges, startNodeId) {
     }
 
     if (!changed) {
-      steps.push({
-        nodes: JSON.parse(JSON.stringify(nodes)),
-        edges: JSON.parse(JSON.stringify(edges)),
-        msg: `На ітерації ${i} жодна відстань не змінилася. Достроково завершуємо релаксацію ребер.`,
-        statusType: "success",
-        passInfo: `${i} / ${V-1}`,
-        edgeInfo: "Завершено"
-      });
+      earlyExit = true;
+      earlyExitIteration = i;
       break;
     }
   }
 
   let hasNegCycle = false;
-  for (let j = 0; j < edges.length; j++) {
-    let edge = edges[j];
-    let uNode = nodes.find(n => n.id === edge.from);
-    let vNode = nodes.find(n => n.id === edge.to);
-    
-    if (!uNode || !vNode) continue;
-
-    edge.isRelaxing = true;
-    uNode.isActive = true;
-    vNode.isProcessing = true;
-
-    if (uNode.dist !== Infinity && uNode.dist + edge.weight < vNode.dist) {
-      hasNegCycle = true;
-      edge.isNegativeCycle = true;
-      vNode.dist = -Infinity;
+  if (!earlyExit) {
+    for (let j = 0; j < edges.length; j++) {
+      let edge = edges[j];
+      let uNode = nodes.find(n => n.id === edge.from);
+      let vNode = nodes.find(n => n.id === edge.to);
       
-      steps.push({
-        nodes: JSON.parse(JSON.stringify(nodes)),
-        edges: JSON.parse(JSON.stringify(edges)),
-        msg: `УВАГА! Виявлено цикл від'ємної ваги через ребро ${uNode.name}->${vNode.name}! Шлях може нескінченно зменшуватися.`,
-        statusType: "danger",
-        passInfo: "Перевірка циклів",
-        edgeInfo: `${uNode.name} → ${vNode.name}`
-      });
+      if (!uNode || !vNode) continue;
+
+      edge.isRelaxing = true;
+      uNode.isActive = true;
+      vNode.isProcessing = true;
+
+      if (uNode.dist !== Infinity && uNode.dist + edge.weight < vNode.dist) {
+        hasNegCycle = true;
+        edge.isNegativeCycle = true;
+        vNode.dist = -Infinity;
+        
+        steps.push({
+          nodes: JSON.parse(JSON.stringify(nodes)),
+          edges: JSON.parse(JSON.stringify(edges)),
+          msg: `УВАГА! Виявлено цикл від'ємної ваги через ребро ${uNode.name}->${vNode.name}! Шлях може нескінченно зменшуватися.`,
+          statusType: "danger",
+          passInfo: "Перевірка циклів",
+          edgeInfo: `${uNode.name} → ${vNode.name}`
+        });
+
+        edge.isRelaxing = false;
+        uNode.isActive = false;
+        vNode.isProcessing = false;
+        break;
+      }
 
       edge.isRelaxing = false;
       uNode.isActive = false;
       vNode.isProcessing = false;
-      break;
     }
-
-    edge.isRelaxing = false;
-    uNode.isActive = false;
-    vNode.isProcessing = false;
   }
 
   if (!hasNegCycle) {
@@ -1406,10 +1538,15 @@ function generateBellmanFordTrace(graphNodes, graphEdges, startNodeId) {
       }
     });
 
+    let msg = "Роботу алгоритму Беллмана-Форда завершено. Циклів з від'ємною вагою не виявлено. Найкоротші шляхи знайдено.";
+    if (earlyExit) {
+      msg = `На ітерації ${earlyExitIteration} жодна відстань не змінилася. Роботу алгоритму Беллмана-Форда завершено достроково. Циклів з від'ємною вагою не виявлено.`;
+    }
+
     steps.push({
       nodes: JSON.parse(JSON.stringify(nodes)),
       edges: JSON.parse(JSON.stringify(edges)),
-      msg: "Релаксацію завершено. Циклів з від'ємною вагою не виявлено. Найкоротші шляхи знайдено.",
+      msg: msg,
       statusType: "success",
       passInfo: "Завершено",
       edgeInfo: "-"

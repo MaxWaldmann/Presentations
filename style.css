@@ -205,6 +205,25 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--md-sys-color-on-surface);
 }
 
+.theme-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-sys-color-on-surface-variant);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: background-color var(--motion-duration-short) var(--motion-easing-standard);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+}
+
 .progress-bar-container {
   position: fixed;
   top: var(--header-height);
@@ -1553,4 +1572,114 @@ h1, h2, h3, h4, h5, h6 {
   0% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-4px) rotate(2deg); }
   100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* ==========================================================================
+   GOOGLE MATERIAL 3 LIGHT THEME
+   ========================================================================= */
+
+body.light-theme {
+  /* MD3 Light Theme Colors with Violet Accent */
+  --md-sys-color-primary: #6750a4;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #eaddff;
+  --md-sys-color-on-primary-container: #21005d;
+  
+  --md-sys-color-secondary: #625b71;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #e8def8;
+  --md-sys-color-on-secondary-container: #1d192b;
+
+  --md-sys-color-tertiary: #7d5260;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #ffd8e4;
+  --md-sys-color-on-tertiary-container: #31111d;
+
+  --md-sys-color-error: #ba1a1a;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffdad6;
+  --md-sys-color-on-error-container: #410002;
+
+  --md-sys-color-background: #fef7ff;
+  --md-sys-color-on-background: #1d1b20;
+  
+  --md-sys-color-surface: #f7f2fa;
+  --md-sys-color-on-surface: #1d1b20;
+  --md-sys-color-surface-variant: #e7e0ec;
+  --md-sys-color-on-surface-variant: #49454f;
+  --md-sys-color-surface-container-low: #f3edf7;
+  --md-sys-color-surface-container: #eee8f4;
+  --md-sys-color-surface-container-high: #e8e2ee;
+  
+  --md-sys-color-outline: #79747e;
+  --md-sys-color-outline-variant: #c4c7c8;
+}
+
+body.light-theme .app-header {
+  background-color: rgba(247, 242, 250, 0.85);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .app-footer {
+  background-color: rgba(247, 242, 250, 0.85);
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .code-window {
+  background-color: #f5f2f7;
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .code-header {
+  background-color: #eae6ee;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .btn-copy-code {
+  background-color: #e3deea;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .btn-copy-code:hover {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+
+body.light-theme .code-window pre {
+  color: #1d1b20;
+}
+
+body.light-theme .flowchart-container {
+  background-color: #f7f2fa;
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .flowchart-controls {
+  background: rgba(238, 232, 244, 0.85);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .canvas-wrapper {
+  background-color: #f7f2fa;
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .canvas-header {
+  background-color: var(--md-sys-color-surface-container);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .canvas-element {
+  background-color: #ffffff;
+}
+
+body.light-theme .fullscreen-compiler-wrapper {
+  background-color: #f5f2f7;
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+body.light-theme .hero-bg-network {
+  background-image: radial-gradient(rgba(103, 80, 164, 0.05) 1.5px, transparent 1.5px), 
+                    radial-gradient(rgba(157, 78, 221, 0.03) 1.5px, transparent 1.5px);
 }
