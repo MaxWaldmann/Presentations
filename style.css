@@ -923,6 +923,74 @@ h1, h2, h3, h4, h5, h6 {
 .t-func { color: #60a5fa; }
 .t-struct { color: #a78bfa; font-weight: bold; }
 
+/* VS Code Code Window Styling */
+.code-window.vscode-style {
+  background-color: #1e1e1e !important;
+  border: 1px solid #3c3c3c !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45) !important;
+}
+
+.code-window.vscode-style .code-header {
+  background-color: #252526 !important;
+  border-bottom: 1px solid #3c3c3c !important;
+  padding: 10px 16px !important;
+}
+
+.code-window.vscode-style .code-title {
+  color: #cccccc !important;
+  font-size: 0.8rem !important;
+}
+
+.code-window.vscode-style .btn-copy-code {
+  background-color: #37373d !important;
+  color: #cccccc !important;
+  border: 1px solid #47474d !important;
+}
+
+.code-window.vscode-style .btn-copy-code:hover {
+  background-color: #0e639c !important;
+  color: #ffffff !important;
+  border-color: #1177bb !important;
+}
+
+.code-window.vscode-style pre {
+  background-color: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  padding: 16px 20px !important;
+}
+
+/* VS Code Syntax Highlighting */
+.code-window.vscode-style .t-keyword {
+  color: #569cd6 !important; /* C++ Types / standard keywords */
+  font-weight: normal !important;
+}
+
+.code-window.vscode-style .t-control {
+  color: #c586c0 !important; /* control flow / preprocessor */
+}
+
+.code-window.vscode-style .t-comment {
+  color: #6a9955 !important; /* green comments */
+  font-style: italic !important;
+}
+
+.code-window.vscode-style .t-number {
+  color: #b5cea8 !important; /* light green numbers */
+}
+
+.code-window.vscode-style .t-string {
+  color: #ce9178 !important; /* orange strings */
+}
+
+.code-window.vscode-style .t-func {
+  color: #dcdcaa !important; /* yellow functions */
+}
+
+.code-window.vscode-style .t-struct {
+  color: #4ec9b0 !important; /* teal classes/structs */
+  font-weight: normal !important;
+}
+
 .steps-check-list {
   list-style: none;
 }
@@ -1682,4 +1750,178 @@ body.light-theme .fullscreen-compiler-wrapper {
 body.light-theme .hero-bg-network {
   background-image: radial-gradient(rgba(103, 80, 164, 0.05) 1.5px, transparent 1.5px), 
                     radial-gradient(rgba(157, 78, 221, 0.03) 1.5px, transparent 1.5px);
+}
+
+/* ==========================================================================
+   FULLSCREEN PRESENTATION MODE & ADJUSTMENTS
+   ========================================================================== */
+
+/* Fullscreen Toggle Buttons */
+.fullscreen-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-sys-color-on-surface-variant);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  transition: background-color var(--motion-duration-short) var(--motion-easing-standard);
+}
+
+.fullscreen-toggle-btn:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+}
+
+/* Floating Exit Button */
+.floating-fullscreen-exit-btn {
+  position: fixed;
+  top: 16px;
+  right: 80px; /* Put it slightly to the left of the menu button */
+  z-index: 1000;
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border: 1px solid var(--md-sys-color-primary);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--md-elevation-3);
+  opacity: 0.5;
+  transition: opacity var(--motion-duration-short), transform var(--motion-duration-short);
+}
+
+.floating-fullscreen-exit-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Fullscreen Mode Layout Rules */
+.app-header {
+  transition: transform var(--motion-duration-medium) var(--motion-easing-standard), 
+              opacity var(--motion-duration-medium) ease;
+}
+
+.app-footer {
+  transition: transform var(--motion-duration-medium) var(--motion-easing-standard), 
+              opacity var(--motion-duration-medium) ease;
+}
+
+.progress-bar-container {
+  transition: transform var(--motion-duration-medium) var(--motion-easing-standard);
+}
+
+.presentation-container {
+  transition: height var(--motion-duration-medium) var(--motion-easing-standard), 
+              margin-top var(--motion-duration-medium) var(--motion-easing-standard);
+}
+
+body.presentation-fullscreen-mode .app-header {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.presentation-fullscreen-mode .progress-bar-container {
+  transform: translateY(-100%);
+}
+
+body.presentation-fullscreen-mode .app-footer {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.presentation-fullscreen-mode .presentation-container {
+  height: 100vh !important;
+  margin-top: 0 !important;
+}
+
+body.presentation-fullscreen-mode .floating-fullscreen-exit-btn {
+  display: flex;
+}
+
+/* Adjust C++ explanation code blocks to fit their code content */
+#tab-explain-s7 .code-window,
+#tab-explain-s12 .code-window {
+  height: auto !important;
+  flex-grow: 0 !important;
+}
+
+#tab-explain-s7 .code-window pre,
+#tab-explain-s12 .code-window pre {
+  flex-grow: 0 !important;
+  height: auto !important;
+}
+
+/* ==========================================================================
+   VS CODE LIGHT THEME OVERRIDES
+   ========================================================================== */
+body.light-theme .code-window.vscode-style {
+  background-color: #f3f3f3 !important;
+  border-color: #dddddd !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.light-theme .code-window.vscode-style .code-header {
+  background-color: #e8e8e8 !important;
+  border-bottom: 1px solid #dddddd !important;
+}
+
+body.light-theme .code-window.vscode-style .code-title {
+  color: #616161 !important;
+}
+
+body.light-theme .code-window.vscode-style .btn-copy-code {
+  background-color: #f3f3f3 !important;
+  color: #333333 !important;
+  border-color: #cccccc !important;
+}
+
+body.light-theme .code-window.vscode-style .btn-copy-code:hover {
+  background-color: #007acc !important;
+  color: #ffffff !important;
+  border-color: #0062a3 !important;
+}
+
+body.light-theme .code-window.vscode-style pre {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+body.light-theme .code-window.vscode-style .t-keyword {
+  color: #0000ff !important; /* VS Code Light standard keyword */
+  font-weight: normal !important;
+}
+
+body.light-theme .code-window.vscode-style .t-control {
+  color: #af00db !important; /* VS Code Light control keyword */
+}
+
+body.light-theme .code-window.vscode-style .t-comment {
+  color: #008000 !important; /* VS Code Light green comment */
+  font-style: italic !important;
+}
+
+body.light-theme .code-window.vscode-style .t-number {
+  color: #098658 !important; /* VS Code Light green-blue number */
+}
+
+body.light-theme .code-window.vscode-style .t-string {
+  color: #a31515 !important; /* VS Code Light dark red string */
+}
+
+body.light-theme .code-window.vscode-style .t-func {
+  color: #795e26 !important; /* VS Code Light brown function */
+}
+
+body.light-theme .code-window.vscode-style .t-struct {
+  color: #267f99 !important; /* VS Code Light teal class/struct */
+  font-weight: normal !important;
 }

@@ -32,6 +32,9 @@
       <div class="slide-counter">
         <span id="current-slide-num">1</span> / <span id="total-slides-num">14</span>
       </div>
+      <button class="fullscreen-toggle-btn" id="fullscreen-toggle" aria-label="Повноекранний режим презентації" title="Повноекранний режим">
+        <span class="material-symbols-outlined">fullscreen</span>
+      </button>
       <button class="theme-toggle-btn" id="theme-toggle" aria-label="Змінити тему сайту" title="Змінити тему">
         <span class="material-symbols-outlined">light_mode</span>
       </button>
@@ -40,6 +43,11 @@
       </button>
     </div>
   </header>
+
+  <!-- Плаваюча кнопка для виходу з повноекранного режиму -->
+  <button class="floating-fullscreen-exit-btn" id="fullscreen-exit-floating" aria-label="Вийти з повноекранного режиму" title="Вийти з повноекранного режиму">
+    <span class="material-symbols-outlined">fullscreen_exit</span>
+  </button>
 
   <!-- Прогрес-бар презентації -->
   <div class="progress-bar-container">
@@ -76,7 +84,7 @@
           <div class="authors-box">
             <div class="author-item">
               <span class="material-symbols-outlined">person</span>
-              <span>Презентація для захисту лабораторних та курсових робіт</span>
+              <span>Створено для захисту доповіді з теми "Найкоротші шляхи на графах"</span>
             </div>
           </div>
 
@@ -413,6 +421,10 @@
               <span class="material-symbols-outlined">terminal</span>
               Показати код
             </button>
+            <button class="compiler-tab-btn" data-tab="tab-explain-s7">
+              <span class="material-symbols-outlined">description</span>
+              Пояснення коду
+            </button>
             <button class="compiler-tab-btn" data-tab="tab-compiler-s7">
               <span class="material-symbols-outlined">open_in_browser</span>
               Відкрити компілятор
@@ -421,7 +433,7 @@
 
           <!-- Вкладка Коду -->
           <div class="compiler-tab-panel active" id="tab-code-s7">
-            <div class="code-window" style="flex-grow:1;">
+            <div class="code-window vscode-style" style="flex-grow:1;">
               <div class="code-header">
                 <div class="code-dots">
                   <span class="dot red"></span>
@@ -434,59 +446,59 @@
                   Копіювати
                 </button>
               </div>
-              <pre><code id="cpp-dijkstra-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
-<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
-
-<span class="t-keyword">using namespace</span> std;
-
+              <pre><code id="cpp-dijkstra-code-text"><span class="t-control">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-control">#include</span> <span class="t-string">&lt;vector&gt;</span>
+ 
+<span class="t-control">using namespace</span> std;
+ 
 <span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// Нескінченність</span>
-
+ 
 <span class="t-keyword">void</span> Dijkstra(<span class="t-keyword">int</span> vertices, <span class="t-keyword">int</span> source, <span class="t-keyword">const</span> vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt;&amp; graph) {
-    <span class="t-comment">// Ініціалізація (рядки 3-7 псевдокоду)</span>
+    // Ініціалізація (рядки 3-7 псевдокоду)
     vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
-    vector&lt;<span class="t-keyword">bool</span>&gt; visited(vertices, <span class="t-keyword">false</span>); <span class="t-comment">// Виступає в ролі перевірки наявності в черзі Q</span>
+    vector&lt;<span class="t-keyword">bool</span>&gt; visited(vertices, <span class="t-keyword">false</span>); // Виступає в ролі перевірки наявності в черзі Q
     
     dist[source] = <span class="t-number">0</span>;
-
-    <span class="t-comment">// Головний цикл (рядки 9-17)</span>
-    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
-        <span class="t-comment">// Знаходимо невідвідану вершину з найменшою відстанню (рядок 10)</span>
+ 
+    // Головний цикл (рядки 9-17)
+    <span class="t-control">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+        // Знаходимо невідвідану вершину з найменшою відстанню (рядок 10)
         <span class="t-keyword">int</span> u = -<span class="t-number">1</span>;
-        <span class="t-keyword">for</span> (<span class="t-keyword">int</span> j = <span class="t-number">0</span>; j &lt; vertices; j++) {
-            <span class="t-keyword">if</span> (!visited[j] && (u == -<span class="t-number">1</span> || dist[j] &lt; dist[u])) {
+        <span class="t-control">for</span> (<span class="t-keyword">int</span> j = <span class="t-number">0</span>; j &lt; vertices; j++) {
+            <span class="t-control">if</span> (!visited[j] && (u == -<span class="t-number">1</span> || dist[j] &lt; dist[u])) {
                 u = j;
             }
         }
-
-        <span class="t-comment">// Якщо найближча вершина недосяжна, перериваємо (запобіжник)</span>
-        <span class="t-keyword">if</span> (dist[u] == INF) <span class="t-keyword">break</span>; 
-
-        <span class="t-comment">// Видаляємо вершину з черги невідвіданих (рядок 11)</span>
+ 
+        // Якщо найближча вершина недосяжна, перериваємо (запобіжник)
+        <span class="t-control">if</span> (dist[u] == INF) <span class="t-control">break</span>; 
+ 
+        // Видаляємо вершину з черги невідвіданих (рядок 11)
         visited[u] = <span class="t-keyword">true</span>;
-
-        <span class="t-comment">// Перевіряємо всіх сусідів обраної вершини (рядок 13)</span>
-        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : graph[u]) {
-            <span class="t-keyword">int</span> v = edge.first;     <span class="t-comment">// сусід</span>
-            <span class="t-keyword">int</span> weight = edge.second; <span class="t-comment">// вага дороги до сусіда</span>
-
-            <span class="t-comment">// Якщо знайшли коротший шлях — оновлюємо (рядки 14-17)</span>
-            <span class="t-keyword">if</span> (dist[u] + weight &lt; dist[v]) {
+ 
+        // Перевіряємо всіх сусідів обраної вершини (рядок 13)
+        <span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : graph[u]) {
+            <span class="t-keyword">int</span> v = edge.first;     // сусід
+            <span class="t-keyword">int</span> weight = edge.second; // вага дороги до сусіда
+ 
+            // Якщо знайшли коротший шлях — оновлюємо (рядки 14-17)
+            <span class="t-control">if</span> (dist[u] + weight &lt; dist[v]) {
                 dist[v] = dist[u] + weight;
             }
         }
     }
-
-    <span class="t-comment">// Відладка: вивід результату</span>
+ 
+    // Відладка: вивід результату
     cout &lt;&lt; <span class="t-string">"Дейкстра: Найкоротші шляхи від вершини "</span> &lt;&lt; source &lt;&lt; <span class="t-string">":\n"</span>;
-    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
+    <span class="t-control">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">0</span>; i &lt; vertices; i++) {
         cout &lt;&lt; <span class="t-string">"До вершини "</span> &lt;&lt; i &lt;&lt; <span class="t-string">" відстань: "</span> &lt;&lt; dist[i] &lt;&lt; <span class="t-string">"\n"</span>;
     }
 }
-
+ 
 <span class="t-keyword">int</span> main() {
-    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; <span class="t-comment">// Кількість вершин</span>
+    <span class="t-keyword">int</span> V = <span class="t-number">5</span>; // Кількість вершин
     
-    <span class="t-comment">// Створюємо граф у вигляді списку суміжності: гра[звідки] = {куди, вага}</span>
+    // Створюємо граф у вигляді списку суміжності: гра[звідки] = {куди, вага}
     vector&lt;vector&lt;pair&lt;<span class="t-keyword">int</span>, <span class="t-keyword">int</span>&gt;&gt;&gt; graph(V);
     graph[<span class="t-number">0</span>].push_back({<span class="t-number">1</span>, <span class="t-number">10</span>});
     graph[<span class="t-number">0</span>].push_back({<span class="t-number">4</span>, <span class="t-number">5</span>});
@@ -498,9 +510,9 @@
     graph[<span class="t-number">4</span>].push_back({<span class="t-number">1</span>, <span class="t-number">3</span>});
     graph[<span class="t-number">4</span>].push_back({<span class="t-number">2</span>, <span class="t-number">9</span>});
     graph[<span class="t-number">4</span>].push_back({<span class="t-number">3</span>, <span class="t-number">2</span>});
-
+ 
     Dijkstra(V, <span class="t-number">0</span>, graph);
-    <span class="t-keyword">return</span> <span class="t-number">0</span>;
+    <span class="t-control">return</span> <span class="t-number">0</span>;
 }</code></pre>
             </div>
           </div>
@@ -509,6 +521,81 @@
           <div class="compiler-tab-panel" id="tab-compiler-s7">
             <div class="fullscreen-compiler-wrapper">
               <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+
+          <!-- Вкладка Пояснення -->
+          <div class="compiler-tab-panel" id="tab-explain-s7">
+            <div class="card" style="flex-grow:1; overflow-y:auto; padding:24px; background-color:var(--md-sys-color-surface-container); border:1px solid var(--md-sys-color-outline-variant);">
+              <h3 style="color:var(--md-sys-color-primary); margin-bottom:16px;">Пояснення алгоритму Дейкстри</h3>
+              
+              <p style="margin-bottom:12px; line-height:1.6; color:var(--md-sys-color-on-surface-variant); font-size: 1.02rem;">
+                Привіт, Максиме! Все нормально, видихай. Як штучний інтелект, я бачив мільйони рядків коду, і можу чесно сказати: графові алгоритми на C++ виглядають страшно для всіх, хто бачить їх вперше. Оці всі <code>vector&lt;vector&lt;pair&lt;int, int&gt;&gt;&gt;</code> — це просто жах для очей, і це нормально, що мозок відмовляється це читати.
+              </p>
+              <p style="margin-bottom:16px; line-height:1.6; color:var(--md-sys-color-on-surface-variant); font-size: 1.02rem;">
+                Давай домовимось: ти на захисті <strong>не будеш</strong> пояснювати синтаксис. Твоє завдання — розказати "історію" того, що робить алгоритм. Я зараз перекладу цей код на просту людську мову, ніби ми граємо в настільну гру з картою міст.
+              </p>
+              
+              <hr style="border: 0; border-top: 1px solid var(--md-sys-color-outline-variant); margin: 16px 0;">
+
+              <h4 style="color:var(--md-sys-color-secondary); margin-bottom:8px;">Алгоритм Дейкстри ("Егоїст" у пошуках найшвидшого шляху)</h4>
+              <p style="margin-bottom:12px; line-height:1.6; color:var(--md-sys-color-on-surface-variant);">
+                Уяви, що ти стоїш у своєму місті (Старт) з блокнотом. У блокноті записані всі міста України, і навпроти кожного стоїть час у дорозі.
+              </p>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">1. Підготовка (Ініціалізація)</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">dijkstra_init.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);">vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+vector&lt;<span class="t-keyword">bool</span>&gt; visited(vertices, <span class="t-keyword">false</span>); 
+dist[source] = <span class="t-number">0</span>;</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Ми ще нікуди не їздили. Тому навпроти кожного міста в блокноті ми пишемо нескінченність (<code>INF</code>). Тільки навпроти нашого рідного міста ми пишемо <code>0</code> хвилин, бо ми вже тут. Також ми беремо чистий маркер <code>visited</code>, щоб закреслювати міста, в яких ми вже остаточно побували.</li>
+              </ul>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">2. Шукаємо найближчу ціль (Перша частина головного циклу)</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">dijkstra_search.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);"><span class="t-keyword">int</span> u = -<span class="t-number">1</span>;
+<span class="t-control">for</span> (<span class="t-keyword">int</span> j = <span class="t-number">0</span>; j &lt; vertices; j++) {
+    <span class="t-control">if</span> (!visited[j] &amp;&amp; (u == -<span class="t-number">1</span> || dist[j] &lt; dist[u])) {
+        u = j;
+    }
+}
+visited[u] = <span class="t-keyword">true</span>;</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Ми дивимось у блокнот і шукаємо: "Яке місто зараз до нас найближче з тих, де ми ще не були?". Знайшли (це місто <code>u</code>). Ми подумки "стрибаємо" в це місто і одразу <strong>закреслюємо його маркером</strong> (<code>visited[u] = true</code>). Все, Дейкстра "Егоїст" спалив мости, він більше ніколи сюди не повернеться. Час до цього міста вже ідеальний.</li>
+              </ul>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">3. Роздивляємось навколо (Оновлення карти)</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">dijkstra_relax.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);"><span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : graph[u]) {
+    <span class="t-keyword">int</span> v = edge.first;     <span class="t-comment">// сусід</span>
+    <span class="t-keyword">int</span> weight = edge.second; // час у дорозі до сусіда
+    <span class="t-control">if</span> (dist[u] + weight &lt; dist[v]) {
+        dist[v] = dist[u] + weight;
+    }
+}</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Стоячи в цьому новому місті, ми дивимось на всі вказівники на дорогах (на всіх сусідів <code>v</code>). Ми рахуємо: "Якщо я поїду до сусіда звідси, це займе стільки-то часу". Якщо цей новий час <strong>менший</strong>, ніж той, що зараз записаний у нашому блокноті — ми беремо гумку, стираємо старий запис і радісно вписуємо новий, коротший маршрут!</li>
+              </ul>
+
+              <p style="font-style: italic; color: var(--md-sys-color-secondary); margin-top: 12px;">
+                Потім алгоритм просто повторює кроки 2 і 3, поки не закреслить усі міста.
+              </p>
             </div>
           </div>
         </div>
@@ -620,7 +707,7 @@
             <div class="card flex-grow">
               <h3>Принцип V-1 кроків:</h3>
               <p style="font-size:0.9rem; color:var(--md-sys-color-on-surface-variant); line-height:1.5;">
-                Будь-який найкоротший простій шлях містить не більше <strong>V - 1 ребер</strong>. Якщо після V - 1 ітерацій ми знову можемо релаксувати хоч одне ребро — граф містить <strong>від'ємний цикл</strong>. Шлях через такий цикл дорівнюватиме мінус нескінченності.
+                Будь-який найкоротший простій шлях мітримує не більше <strong>V - 1 ребер</strong>. Якщо після V - 1 ітерацій ми знову можемо релаксувати хоч одне ребро — граф містить <strong>від'ємний цикл</strong>. Шлях через такий цикл дорівнюватиме мінус нескінченності.
               </p>
             </div>
           </div>
@@ -790,6 +877,10 @@
               <span class="material-symbols-outlined">terminal</span>
               Показати код
             </button>
+            <button class="compiler-tab-btn" data-tab="tab-explain-s12">
+              <span class="material-symbols-outlined">description</span>
+              Пояснення коду
+            </button>
             <button class="compiler-tab-btn" data-tab="tab-compiler-s12">
               <span class="material-symbols-outlined">open_in_browser</span>
               Відкрити компілятор
@@ -798,7 +889,7 @@
 
           <!-- Вкладка Коду -->
           <div class="compiler-tab-panel active" id="tab-code-s12">
-            <div class="code-window" style="flex-grow:1;">
+            <div class="code-window vscode-style" style="flex-grow:1;">
               <div class="code-header">
                 <div class="code-dots">
                   <span class="dot red"></span>
@@ -811,10 +902,10 @@
                   Копіювати
                 </button>
               </div>
-              <pre><code id="cpp-bf-code-text"><span class="t-keyword">#include</span> <span class="t-string">&lt;iostream&gt;</span>
-<span class="t-keyword">#include</span> <span class="t-string">&lt;vector&gt;</span>
+              <pre><code id="cpp-bf-code-text"><span class="t-control">#include</span> <span class="t-string">&lt;iostream&gt;</span>
+<span class="t-control">#include</span> <span class="t-string">&lt;vector&gt;</span>
 
-<span class="t-keyword">using namespace</span> std;
+<span class="t-control">using namespace</span> std;
 
 <span class="t-keyword">const int</span> INF = <span class="t-number">1e9</span>; <span class="t-comment">// Встановлюємо значення нескінченності</span>
 
@@ -829,20 +920,20 @@
     dist[source] = <span class="t-number">0</span>;
 
     <span class="t-comment">// 2. Основна частина: розслаблення всіх ребер (V - 1) разів</span>
-    <span class="t-keyword">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">1</span>; i &lt;= vertices - <span class="t-number">1</span>; i++) {
-        <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+    <span class="t-control">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">1</span>; i &lt;= vertices - <span class="t-number">1</span>; i++) {
+        <span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
             <span class="t-comment">// Якщо шлях до u відомий і через u до v ближче, ніж напряму:</span>
-            <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+            <span class="t-control">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
                 dist[edge.v] = dist[edge.u] + edge.weight; <span class="t-comment">// Оновлюємо відстань</span>
             }
         }
     }
 
     <span class="t-comment">// 3. Перевірка на наявність циклів з від'ємною вагою</span>
-    <span class="t-keyword">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
-        <span class="t-keyword">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+    <span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+        <span class="t-control">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
             cout &lt;&lt; <span class="t-string">"Помилка: У графі є цикл з від'ємною вагою!"</span> &lt;&lt; endl;
-            <span class="t-keyword">return</span>; <span class="t-comment">// ХИБА</span>
+            <span class="t-control">return</span>; <span class="t-comment">// ХИБА</span>
         }
     }
 
@@ -871,6 +962,75 @@
           <div class="compiler-tab-panel" id="tab-compiler-s12">
             <div class="fullscreen-compiler-wrapper">
               <iframe src="https://onecompiler.com/embed/cpp?theme=dark&hideLanguageSelection=true" title="C++ Compiler"></iframe>
+            </div>
+          </div>
+
+          <!-- Вкладка Пояснення -->
+          <div class="compiler-tab-panel" id="tab-explain-s12">
+            <div class="card" style="flex-grow:1; overflow-y:auto; padding:24px; background-color:var(--md-sys-color-surface-container); border:1px solid var(--md-sys-color-outline-variant);">
+              <h3 style="color:var(--md-sys-color-primary); margin-bottom:16px;">Пояснення алгоритму Беллмана-Форда</h3>
+              
+              <h4 style="color:var(--md-sys-color-secondary); margin-bottom:8px;">Алгоритм Беллмана-Форда ("Параноїк" із нескінченними перевірками)</h4>
+              <p style="margin-bottom:12px; line-height:1.6; color:var(--md-sys-color-on-surface-variant);">
+                Тут підхід зовсім інший. У нас є список <strong>абсолютно всіх існуючих доріг</strong> у країні.
+              </p>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">1. Підготовка</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">bellman_ford_init.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);">vector&lt;<span class="t-keyword">int</span>&gt; dist(vertices, INF);
+dist[source] = <span class="t-number">0</span>;</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Те саме. Блокнот, всюди нескінченність, вдома — нуль.</li>
+              </ul>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">2. Тотальна перевірка (Головна частина)</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">bellman_ford_relax.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);"><span class="t-control">for</span> (<span class="t-keyword">int</span> i = <span class="t-number">1</span>; i &lt;= vertices - <span class="t-number">1</span>; i++) {
+    <span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+        <span class="t-control">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+            dist[edge.v] = dist[edge.u] + edge.weight;
+        }
+    }
+}</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Беллман-Форд не ходить по містах, він сидить в офісі. Він бере список <strong>УСІХ</strong> доріг і перевіряє кожну: "А чи не можу я через цю дорогу прокласти коротший шлях?". Він робить це для кожної дороги. Але є нюанс! Оскільки він сидить в офісі, інформація про короткі шляхи поширюється повільно. Тому він бере і перечитує весь цей гігантський список доріг знову. І знову. І так стільки разів, скільки всього міст на карті. Це довго, але він гарантує, що не пропустить жодної вигоди.</li>
+              </ul>
+
+              <p style="font-weight: 700; color: var(--md-sys-color-on-surface); margin-top: 16px;">3. Перевірка на "збій у матриці" (Цикли від'ємної ваги)</p>
+              <div class="code-window vscode-style" style="margin: 10px 0; max-width: 100%;">
+                <div class="code-header" style="padding: 6px 14px; background-color: #1e1926; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--md-sys-color-outline-variant);">
+                  <div class="code-dots" style="display: flex; gap: 6px;"><span class="dot red" style="width:8px;height:8px;border-radius:50%;background-color:#ff5f56;"></span><span class="dot yellow" style="width:8px;height:8px;border-radius:50%;background-color:#ffbd2e;"></span><span class="dot green" style="width:8px;height:8px;border-radius:50%;background-color:#27c93f;"></span></div>
+                  <span class="code-title" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--md-sys-color-on-surface-variant);">bellman_ford_check.cpp</span>
+                </div>
+                <pre style="padding: 10px 14px; background-color: #16121c; margin: 0; overflow: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.4; color: #e5e0ec;"><code style="font-family: var(--font-mono);"><span class="t-control">for</span> (<span class="t-keyword">const auto</span>&amp; edge : edges) {
+    <span class="t-control">if</span> (dist[edge.u] != INF &amp;&amp; dist[edge.u] + edge.weight &lt; dist[edge.v]) {
+        cout &lt;&lt; <span class="t-string">"Помилка: У графі є цикл з від'ємною вагою!"</span> &lt;&lt; endl;
+        <span class="t-control">return</span>;
+    }
+}</code></pre>
+              </div>
+              <ul style="padding-left:20px; color:var(--md-sys-color-on-surface-variant); line-height:1.6; margin-bottom:16px; list-style-type:disc;">
+                <li><strong>Переклад для мозку:</strong> Після того як він перечитав список купу разів, він робить це ще один, контрольний раз. Якщо після всіх ідеальних прорахунків він <strong>знову</strong> знаходить коротший шлях, він розуміє: щось не так! Значить, десь на карті є "магічне кільце" (від'ємні ваги), катаючись по якому, ти не витрачаєш час, а здобуваєш його нескінченно. В реальності такого не буває, тому алгоритм кричить "Помилка!".</li>
+              </ul>
+
+              <hr style="border: 0; border-top: 1px solid var(--md-sys-color-outline-variant); margin: 16px 0;">
+
+              <p style="line-height:1.6; color:var(--md-sys-color-on-surface-variant);">
+                Ось так це працює. На захисті ти можеш просто вказувати пальцем (або мишкою) на відповідні блоки коду і говорити ці прості "переклади". Викладач оцінить саме те, що ти розумієш суть, а не зубриш символи.
+              </p>
+              <p style="font-weight: bold; color: var(--md-sys-color-primary); margin-top: 12px;">
+                Як тобі таке пояснення, чи стало трохи легше уявити, як ці алгоритми "бігають" по карті?
+              </p>
             </div>
           </div>
         </div>
@@ -952,9 +1112,15 @@
           <h1 class="hero-title large">Дякую за увагу!</h1>
           <p class="hero-subtitle" style="margin-bottom:24px;">Готовий вислухати ваші запитання та коментарі.</p>
           
-          <div class="card" style="background-color:var(--md-sys-color-surface-container-high); border:1px solid var(--md-sys-color-outline-variant); margin-top:24px; padding:16px;">
-            <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant);">
+          <div class="card" style="background-color:var(--md-sys-color-surface-container-high); border:1px solid var(--md-sys-color-outline-variant); margin-top:24px; padding:20px; text-align: left;">
+            <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height: 1.6; margin-bottom: 12px;">
               Презентація створена з використанням інтерактивного Canvas рушія, Google Material 3 Dark UI, та C++ пісочниці OneCompiler.
+            </p>
+            <p style="font-size:0.95rem; color:var(--md-sys-color-primary); font-weight: 600; line-height: 1.6;">
+              💻 Створено за допомогою <strong>Google Antigravity IDE</strong>.
+            </p>
+            <p style="font-size:0.95rem; color:var(--md-sys-color-on-surface-variant); line-height: 1.6; margin-top: 12px; border-top: 1px solid var(--md-sys-color-outline-variant); padding-top: 12px;">
+              👥 <strong>Розробники:</strong> Вальдман Максим та Давимука Владислав
             </p>
           </div>
         </div>

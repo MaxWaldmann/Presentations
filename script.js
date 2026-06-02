@@ -227,6 +227,77 @@ document.addEventListener('DOMContentLoaded', () => {
   // Ініціалізація симуляторів графів
   initSimulators();
   initFlowchartPanAndZoom();
+
+  // Повноекранний режим презентації
+  const fullscreenToggle = document.getElementById('fullscreen-toggle');
+  const fullscreenExitFloating = document.getElementById('fullscreen-exit-floating');
+  
+  function toggleFullscreenPresentation() {
+    const isFullscreen = document.body.classList.toggle('presentation-fullscreen-mode');
+    
+    // Оновлення іконки в хедері
+    const icon = fullscreenToggle ? fullscreenToggle.querySelector('.material-symbols-outlined') : null;
+    if (icon) {
+      icon.textContent = isFullscreen ? 'fullscreen_exit' : 'fullscreen';
+    }
+    
+    // Спроба використати нативний fullscreen API браузера
+    if (isFullscreen) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log("Browser blocked native fullscreen, using CSS fallback: ", err);
+        });
+      }
+    } else {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(err => {
+          console.log("Error exiting native fullscreen: ", err);
+        });
+      }
+    }
+  }
+  
+  if (fullscreenToggle) {
+    fullscreenToggle.addEventListener('click', toggleFullscreenPresentation);
+  }
+  if (fullscreenExitFloating) {
+    fullscreenExitFloating.addEventListener('click', () => {
+      if (document.body.classList.contains('presentation-fullscreen-mode')) {
+        toggleFullscreenPresentation();
+      }
+    });
+  }
+  
+  // Обробка гарячих клавіш (Escape для виходу, F для перемикання)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('presentation-fullscreen-mode')) {
+      toggleFullscreenPresentation();
+    }
+    
+    // 'F' або 'f' (укр. 'А' або 'а') для швидкого переходу
+    if ((e.key === 'f' || e.key === 'F' || e.key === 'а' || e.key === 'А') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      // Запобігаємо спрацюванню, якщо користувач вводить дані в текстове поле редактора
+      if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        toggleFullscreenPresentation();
+        e.preventDefault();
+      }
+    }
+  });
+  
+  // Обробка зміни стану нативного fullscreen (наприклад, якщо користувач натиснув F11 або Esc)
+  document.addEventListener('fullscreenchange', () => {
+    const isNativeFullscreen = !!document.fullscreenElement;
+    const hasClass = document.body.classList.contains('presentation-fullscreen-mode');
+    if (isNativeFullscreen && !hasClass) {
+      document.body.classList.add('presentation-fullscreen-mode');
+      const icon = fullscreenToggle ? fullscreenToggle.querySelector('.material-symbols-outlined') : null;
+      if (icon) icon.textContent = 'fullscreen_exit';
+    } else if (!isNativeFullscreen && hasClass) {
+      document.body.classList.remove('presentation-fullscreen-mode');
+      const icon = fullscreenToggle ? fullscreenToggle.querySelector('.material-symbols-outlined') : null;
+      if (icon) icon.textContent = 'fullscreen';
+    }
+  });
 });
 
 // Глобальна функція для відкриття додаткової інформації вчених
